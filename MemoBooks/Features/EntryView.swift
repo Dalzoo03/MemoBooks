@@ -73,8 +73,7 @@ struct EntryView: View {
             }
             .onChange(of: voice.transcript) { _, text in
                 input = voicePrefix + text
-                referenceTimestamp = Date.now.timeIntervalSince1970
-                loadedNoteID = ""
+                referenceTimestamp = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp).timeIntervalSince1970
                 saved = false
             }
             .onDisappear { cancel(); voice.stop() }
@@ -236,7 +235,7 @@ struct EntryView: View {
         inputFocused = false; saved = false; errorMessage = nil; isLoading = true
         let id = UUID(); requestID = id
         let original = input
-        let today = loadedNoteID.isEmpty ? Date.now : Date(timeIntervalSince1970: referenceTimestamp)
+        let today = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp)
         request = Task { @MainActor in
             do {
                 let result = try await service.parse(original, today: today)
@@ -256,7 +255,7 @@ struct EntryView: View {
     private func openManual() {
         saved = false; errorMessage = nil; amount = ""; memo = input
         kind = .expense; category = .other
-        date = loadedNoteID.isEmpty ? .now : Date(timeIntervalSince1970: referenceTimestamp)
+        date = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp)
         wasAI = false; showPreview = true
     }
     private func save() {

@@ -18,6 +18,10 @@ xcrun swiftc -module-cache-path "$work_dir/modules" \
   MemoBooks/Services/DraftValidation.swift MemoBooks/Models/LedgerTypes.swift \
   Tests/main.swift -o "$work_dir/validation"
 "$work_dir/validation"
+xcrun swiftc -parse-as-library -module-cache-path "$work_dir/modules" \
+  MemoBooks/Services/DraftValidation.swift MemoBooks/Models/LedgerTypes.swift \
+  Tests/BackupFiles/Runner.swift -o "$work_dir/backup-files"
+"$work_dir/backup-files"
 xcrun swiftc -module-cache-path "$work_dir/modules" MemoBooks/Services/DraftValidation.swift Tests/InputHints/main.swift -o "$work_dir/input-hints"
 "$work_dir/input-hints"
 xcrun swiftc -module-cache-path "$work_dir/modules" \

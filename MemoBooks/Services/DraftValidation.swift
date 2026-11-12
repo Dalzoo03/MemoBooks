@@ -2,6 +2,9 @@ import Foundation
 
 enum DraftValidation {
     static let maximumAmount = 1_000_000_000_000
+    static func entryReferenceDate(watchNoteID: String, timestamp: Double, now: Date = .now) -> Date {
+        watchNoteID.isEmpty ? now : Date(timeIntervalSince1970: timestamp)
+    }
     static func amount(from text: String) -> Int? {
         let cleaned = text.trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: ",", with: "")

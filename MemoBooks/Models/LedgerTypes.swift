@@ -1,6 +1,6 @@
 import Foundation
 
-enum TransactionKind: String, Codable, CaseIterable, Identifiable {
+enum TransactionKind: String, Codable, CaseIterable, Identifiable, Sendable {
     case expense, income
     var id: String { rawValue }
     var title: String { self == .expense ? "지출" : "수입" }
@@ -37,7 +37,7 @@ enum ExpenseCategory: String, CaseIterable, Identifiable {
     }
 }
 
-struct BackupRecord: Codable, Identifiable, Equatable {
+struct BackupRecord: Codable, Identifiable, Equatable, Sendable {
     let id: UUID
     let amount: Int
     let category: String
@@ -48,7 +48,7 @@ struct BackupRecord: Codable, Identifiable, Equatable {
     let kind: TransactionKind
 }
 
-struct LedgerBackup: Codable {
+struct LedgerBackup: Codable, Sendable {
     let version: Int
     let exportedAt: Date
     let records: [BackupRecord]
@@ -116,5 +116,26 @@ enum BackupCodec {
              r.isAiClassified ? "AI" : "직접 입력"].map(cell).joined(separator: ",")
         }
         return "\u{FEFF}날짜,유형,금액(원),카테고리,메모,입력 방식\r\n" + rows.joined(separator: "\r\n")
+    }
+}
+
+// Only value snapshots cross threads; SwiftData models and contexts stay on their owning actor.
+enum BackupFiles {
+    static func export(_ records: [BackupRecord], csv: Bool) async throws -> Data {
+        try await Task.detached(priority: .userInitiated) {
+            let sorted = records.sorted { $0.date < $1.date }
+            return csv ? Data(BackupCodec.csv(sorted).utf8) : try BackupCodec.encode(sorted)
+        }.value
+    }
+
+    static func read(_ url: URL) async throws -> LedgerBackup {
+        try await Task.detached(priority: .userInitiated) {
+            let access = url.startAccessingSecurityScopedResource()
+            defer { if access { url.stopAccessingSecurityScopedResource() } }
+            let handle = try FileHandle(forReadingFrom: url)
+            defer { try? handle.close() }
+            let data = try handle.read(upToCount: BackupCodec.maximumBytes + 1) ?? Data()
+            return try BackupCodec.decode(data)
+        }.value
     }
 }

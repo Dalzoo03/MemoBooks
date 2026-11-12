@@ -41,10 +41,11 @@ struct SettingsView: View {
                     }.padding(.vertical, 10)
                 }
                 Section {
+                    if isWorking { ProgressView("백업을 처리하고 있어요") }
                     LabeledContent("저장한 기록", value: "\(records.count)건")
-                    Button { prepareExport(csv: false) } label: { Label("백업 저장하기", systemImage: "arrow.up.document") }
+                    Button { Task { await prepareExport(csv: false) } } label: { Label("백업 저장하기", systemImage: "arrow.up.document") }
                     Button { showImport = true } label: { Label("백업에서 복원하기", systemImage: "arrow.down.document") }
-                    Button { prepareExport(csv: true) } label: { Label("CSV로 내보내기", systemImage: "tablecells") }
+                    Button { Task { await prepareExport(csv: true) } } label: { Label("CSV로 내보내기", systemImage: "tablecells") }
                     if lastBackup > 0 {
                         LabeledContent("최근 JSON 백업", value: Date(timeIntervalSince1970: lastBackup).formatted(.dateTime.year().month().day()))
                             .font(.caption).foregroundStyle(.secondary)
@@ -78,7 +79,7 @@ struct SettingsView: View {
                 }
             }
             .fileImporter(isPresented: $showImport, allowedContentTypes: [.json]) { result in
-                if case .success(let url) = result { prepareImport(url) }
+                if case .success(let url) = result { Task { await prepareImport(url) } }
                 else if case .failure(let error) = result, (error as NSError).code != NSUserCancelledError {
                     message = "백업을 열지 못했어요. 파일이 기기에 다운로드됐는지 확인해 주세요"
                 }
@@ -114,22 +115,23 @@ struct SettingsView: View {
         }.presentationDetents([.medium, .large])
     }
 
-    private func prepareExport(csv: Bool) {
+    private func prepareExport(csv: Bool) async {
+        guard !isWorking else { return }
+        isWorking = true
+        defer { isWorking = false }
         do {
-            let snapshot = try BackupService.snapshot(records.sorted { $0.date < $1.date }, context: context)
-            exportDocument = LedgerDocument(data: csv ? Data(BackupCodec.csv(snapshot).utf8) : try BackupCodec.encode(snapshot))
+            let snapshot = try BackupService.snapshot(records, context: context)
+            exportDocument = LedgerDocument(data: try await BackupFiles.export(snapshot, csv: csv))
             exportType = csv ? .commaSeparatedText : .json
             showExport = true
         } catch { message = "백업을 만들지 못했어요. \(error.localizedDescription)" }
     }
-    private func prepareImport(_ url: URL) {
-        let access = url.startAccessingSecurityScopedResource()
-        defer { if access { url.stopAccessingSecurityScopedResource() } }
+    private func prepareImport(_ url: URL) async {
+        guard !isWorking else { return }
+        isWorking = true
+        defer { isWorking = false }
         do {
-            let handle = try FileHandle(forReadingFrom: url)
-            defer { try? handle.close() }
-            let data = try handle.read(upToCount: BackupCodec.maximumBytes + 1) ?? Data()
-            pendingBackup = try BackupCodec.decode(data)
+            pendingBackup = try await BackupFiles.read(url)
             showImportPreview = true
         } catch { message = "복원할 수 없어요. \(error.localizedDescription)" }
     }

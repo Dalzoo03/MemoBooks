@@ -87,3 +87,10 @@ print("Passed \(checks) total validation, calendar and backup checks")
 let largeBackup = (0..<14_000).map { _ in record(memo: String(repeating: "가", count: 500)) }
 rejects("export refuses a backup that its importer cannot read") { _ = try BackupCodec.encode(largeBackup) }
 print("Passed \(checks) total checks including backup size symmetry")
+
+let watchSentAt = Date(timeIntervalSince1970: 1_790_000_000)
+let voiceEditedAt = watchSentAt.addingTimeInterval(86400 * 2)
+let watchReference = DraftValidation.entryReferenceDate(watchNoteID: "watch-note", timestamp: watchSentAt.timeIntervalSince1970, now: voiceEditedAt)
+check(watchReference == watchSentAt, "voice edits preserve Watch note date reference")
+check(DraftValidation.entryReferenceDate(watchNoteID: "", timestamp: watchSentAt.timeIntervalSince1970, now: voiceEditedAt) == voiceEditedAt, "new phone entries use current date")
+print("Passed \(checks) checks including Watch draft reference preservation")
