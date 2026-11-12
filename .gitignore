@@ -1,0 +1,9 @@
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+.DS_Store
+ai-evaluation.json
+*.store
+*.store-shm
+*.store-wal
