@@ -93,7 +93,8 @@ Tools/check.sh      한 번에 실행하는 로컬 검사
 ## 실행
 
 - **최소 대상**: iOS 26.0 / watchOS 26.0
-- **이번 검증 환경**: Xcode 27.2, macOS 27.0.1, iOS 27.2 Simulator
+- **빌드 도구**: Xcode 26.6 이상 (GitHub Actions: 26.6)
+- **이번 로컬 검증 환경**: Xcode 27.2, macOS 27.0.1, iOS 27.2 Simulator
 - AI: Apple Intelligence 지원 기기, 기능 활성화와 모델 준비 필요
 - 음성: 기기 내 한국어 음성인식 지원과 마이크·음성 권한 필요
 

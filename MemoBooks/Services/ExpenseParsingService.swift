@@ -70,7 +70,7 @@ final class ExpenseParsingService {
         let response = try await session.respond(
             to: "오늘 날짜: \(DraftValidation.dateText(today))\n시간대: \(TimeZone.current.identifier)\n거래 입력 데이터:\n\(text)",
             generating: ExpenseDraft.self,
-            options: GenerationOptions(samplingMode: .greedy)
+            options: GenerationOptions(sampling: .greedy)
         )
         try Task.checkCancellation()
         let hintedDate: Date?
