@@ -115,7 +115,7 @@ Watch는 iPhone·Watch 양쪽에 설치한 뒤 실행합니다. Watch 시스템 
 화면 확인용으로 Debug 실행 인자 `--demo --tab=calendar`를 지원합니다. `home`, `entry`, `calendar`, `history`, `settings` 중 선택할 수 있습니다.
 이 모드는 가상 거래만 메모리에 만들며 첫 사용 안내와 기본 예산 설정을 바꾸므로 별도 시뮬레이터에서 사용하세요. Release 빌드에는 포함되지 않습니다.
 
-## 검증과 AI 평가
+## AI 평가
 
 ```sh
 # 모델이나 시뮬레이터 없이: 로직 + Watch 실패 복구 + 실제 SwiftData 검사
@@ -132,11 +132,6 @@ xcodebuild -project MemoBooks.xcodeproj -scheme MemoBooks \
 
 GitHub Actions는 로컬 검사와 시뮬레이터 빌드를 수행합니다. AI 추론은 모델이 준비된 환경에서 별도로 실행합니다.
 평가 도구의 종료 코드는 전체 통과 `0`, 불일치 `1`, 모델 미준비 `2`이며 결과 JSON에 실제 출력과 처리 시간을 남깁니다.
-
-2026-11-12에 대표 입력 18개를 실행했습니다. 개선 후 **명확한 거래 13건의 금액·날짜·유형·분류 일치와 위험·모호 입력 5건의 확인 안내를 통과**했습니다.
-일반 거래 13건의 처리 시간 중앙값은 이 Mac에서 약 **1.44초**였습니다. 소수의 개발용 사례이며 일반적인 정확도나 iPhone 성능을 뜻하지 않습니다.
-
-[평가 입력](Tests/AIEvaluation/cases.json) · [개선 전 출력](docs/validation/ai-baseline-macos.json) · [개선 후 출력](docs/validation/ai-evaluation-macos.json) · [검증 기록](VALIDATION.md)
 
 ## 현재 범위와 다음 확인
 
