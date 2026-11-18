@@ -25,8 +25,13 @@ xcrun swiftc -parse-as-library -module-cache-path "$work_dir/modules" \
 xcrun swiftc -module-cache-path "$work_dir/modules" MemoBooks/Services/DraftValidation.swift Tests/InputHints/main.swift -o "$work_dir/input-hints"
 "$work_dir/input-hints"
 xcrun swiftc -module-cache-path "$work_dir/modules" \
+  MemoBooks/Models/LedgerTypes.swift MemoBooks/Services/DraftValidation.swift Shared/WatchLedgerMessages.swift \
   WatchApp/WatchOutbox.swift Tests/WatchOutbox/main.swift -o "$work_dir/outbox"
 "$work_dir/outbox"
+xcrun swiftc -module-cache-path "$work_dir/modules" \
+  MemoBooks/Models/LedgerTypes.swift MemoBooks/Services/DraftValidation.swift \
+  Shared/WatchLedgerMessages.swift Tests/WatchLedger/main.swift -o "$work_dir/watch-ledger"
+"$work_dir/watch-ledger"
 if ! xcodebuild -quiet -project Tests/StoreChecks/StoreChecks.xcodeproj -scheme StoreChecks \
   -configuration Debug -derivedDataPath "$work_dir/store-build" CODE_SIGNING_ALLOWED=NO build \
   > "$work_dir/build.log" 2>&1; then cat "$work_dir/build.log"; exit 1; fi

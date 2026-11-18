@@ -5,6 +5,9 @@ struct OutgoingWatchNote: Codable, Identifiable, Equatable {
     let text: String
     let date: Date
     var failed = false
+    var draft: WatchLedgerDraft? = nil
+    var confirmationFlow: Bool? = nil
+    var usesWatchConfirmation: Bool { confirmationFlow == true }
 }
 
 struct WatchOutbox {
@@ -20,7 +23,7 @@ struct WatchOutbox {
     mutating func enqueue(_ text: String) throws -> OutgoingWatchNote {
         let clean = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, clean.count <= 500 else { throw CocoaError(.coderInvalidValue) }
-        let note = OutgoingWatchNote(id: UUID().uuidString, text: clean, date: .now)
+        let note = OutgoingWatchNote(id: UUID().uuidString, text: clean, date: .now, confirmationFlow: true)
         try persist(notes + [note])
         return note
     }
@@ -29,6 +32,24 @@ struct WatchOutbox {
         var updated = notes
         if succeeded { updated.removeAll { $0.id == id } }
         else if let index = updated.firstIndex(where: { $0.id == id }) { updated[index].failed = true }
+        try persist(updated)
+    }
+
+    mutating func updateText(_ text: String, for id: String) throws {
+        let clean = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !clean.isEmpty, clean.count <= 500,
+              let index = notes.firstIndex(where: { $0.id == id && $0.draft == nil && $0.usesWatchConfirmation }) else { throw CocoaError(.coderInvalidValue) }
+        var updated = notes
+        updated[index] = OutgoingWatchNote(id: id, text: clean, date: notes[index].date, confirmationFlow: true)
+        try persist(updated)
+    }
+
+    mutating func setDraft(_ draft: WatchLedgerDraft, for id: String) throws {
+        try draft.validate()
+        guard draft.id.uuidString == id, let index = notes.firstIndex(where: { $0.id == id && $0.usesWatchConfirmation }) else { throw CocoaError(.coderInvalidValue) }
+        var updated = notes
+        updated[index].draft = draft
+        updated[index].failed = false
         try persist(updated)
     }
 

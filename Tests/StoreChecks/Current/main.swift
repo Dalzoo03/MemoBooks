@@ -52,6 +52,18 @@ import SwiftData
     ]
     let totals = ExpenseCalendar.expenseTotals(rows, month: start, calendar: calendar)
     check(totals == [start: 300], "day totals exclude income and records outside month")
+    let watchID = UUID()
+    let watchDraft = WatchLedgerDraft(id: watchID, amount: 4500, memo: "워치 커피", category: "카페", kind: .expense, date: start, createdAt: start)
+    let saved = try WatchLedgerService.save(watchDraft, context: ModelContext(container))
+    check(saved == watchDraft, "Watch save preserves confirmed draft")
+    var changedRetry = watchDraft
+    changedRetry.amount = 9000
+    let repeated = try WatchLedgerService.save(changedRetry, context: ModelContext(container))
+    check(repeated.amount == 4500, "lost acknowledgement retry returns original saved record")
+    check(try context.fetchCount(FetchDescriptor<Expense>()) == 3, "Watch retry never adds a duplicate")
+    var badWatch = watchDraft
+    badWatch.amount = -1
+    do { _ = try WatchLedgerService.save(badWatch, context: context); preconditionFailure("invalid Watch save accepted") } catch { checks += 1 }
     print("Passed \(checks) real SwiftData migration and restore checks")
 }
 try MainActor.assumeIsolated { try verifyStore() }

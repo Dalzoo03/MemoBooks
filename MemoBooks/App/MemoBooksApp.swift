@@ -73,7 +73,7 @@ struct MemoBooksApp: App {
                 return
             }
             #endif
-            container = try ModelContainer(for: Expense.self, configurations: ModelConfiguration(cloudKitDatabase: .none))
+            container = try LedgerStore.open()
             storageFailed = false
         } catch { storageFailed = true }
     }

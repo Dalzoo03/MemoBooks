@@ -1,5 +1,9 @@
 // !$*UTF8*$!
 {archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
+C783E1E9C5F99C0ACE0CCB65 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "../../Shared/WatchLedgerMessages.swift"; sourceTree = "<group>";};
+6F66FF97FD44E65FC09C6D35 = {isa = PBXBuildFile; fileRef = C783E1E9C5F99C0ACE0CCB65;};
+621FC9970D9382EE53A700A9 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "../../MemoBooks/Services/WatchLedgerService.swift"; sourceTree = "<group>";};
+13D0747A266BFA60BEB60661 = {isa = PBXBuildFile; fileRef = 621FC9970D9382EE53A700A9;};
 DCE545E0D71FE7E189276F1B = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Legacy/main.swift"; sourceTree = "<group>";};
 35363F7B33A07FE5BC412B5C = {isa = PBXBuildFile; fileRef = DCE545E0D71FE7E189276F1B;};
 AE8E6EFA151EF861D41F6564 = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = LegacyFixture; sourceTree = BUILT_PRODUCTS_DIR;};
@@ -18,11 +22,11 @@ B1CB49D692C9FDF34E043C7F = {isa = PBXBuildFile; fileRef = F7C75999B80768714AE2A7
 1AD14116908440C64A886934 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "../../MemoBooks/Services/BackupService.swift"; sourceTree = "<group>";};
 F30E27443B190C177411264B = {isa = PBXBuildFile; fileRef = 1AD14116908440C64A886934;};
 46B3FCB1DC7D98C5900DDEA6 = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = LedgerChecks; sourceTree = BUILT_PRODUCTS_DIR;};
-6DD7D9CFD9D3F498E262C155 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (DF87975DE455B66CFD071DEB,B1CB49D692C9FDF34E043C7F,5A329C72353803BE7F4A66D3,51234C66FE0B432633223576,F30E27443B190C177411264B,); runOnlyForDeploymentPostprocessing = 0;};
+6DD7D9CFD9D3F498E262C155 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (6F66FF97FD44E65FC09C6D35,13D0747A266BFA60BEB60661,DF87975DE455B66CFD071DEB,B1CB49D692C9FDF34E043C7F,5A329C72353803BE7F4A66D3,51234C66FE0B432633223576,F30E27443B190C177411264B,); runOnlyForDeploymentPostprocessing = 0;};
 5E8D3DDFB1EF80AC392AA2CC = {isa = XCBuildConfiguration; name = Debug; buildSettings = {SDKROOT = macosx; ALWAYS_SEARCH_USER_PATHS = NO; ONLY_ACTIVE_ARCH = YES; CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/$(TARGET_NAME)"; MACOSX_DEPLOYMENT_TARGET = 26.0; SWIFT_VERSION = 5.0; PRODUCT_NAME = LedgerChecks; PRODUCT_MODULE_NAME = LedgerProbe; CODE_SIGN_IDENTITY = "-"; SWIFT_OPTIMIZATION_LEVEL = "-Onone";};};
 AFA3FEE8087B3244AE813AB6 = {isa = XCConfigurationList; buildConfigurations = (5E8D3DDFB1EF80AC392AA2CC,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug;};
 FC3AC58AB547372D6593192C = {isa = PBXNativeTarget; buildConfigurationList = AFA3FEE8087B3244AE813AB6; buildPhases = (6DD7D9CFD9D3F498E262C155,); buildRules = (); dependencies = (); name = LedgerChecks; productName = LedgerChecks; productReference = 46B3FCB1DC7D98C5900DDEA6; productType = "com.apple.product-type.tool";};
-3C733F4653DE0AF73A15D28A = {isa = PBXGroup; sourceTree = "<group>"; children = (DCE545E0D71FE7E189276F1B,BDAD931B463B6DE7540F40BB,F7C75999B80768714AE2A701,9730EE313415BC3668E8E95B,4FFDC9E2FB23D2C151B690A6,1AD14116908440C64A886934,AE8E6EFA151EF861D41F6564,46B3FCB1DC7D98C5900DDEA6,);};
+3C733F4653DE0AF73A15D28A = {isa = PBXGroup; sourceTree = "<group>"; children = (C783E1E9C5F99C0ACE0CCB65,621FC9970D9382EE53A700A9,DCE545E0D71FE7E189276F1B,BDAD931B463B6DE7540F40BB,F7C75999B80768714AE2A701,9730EE313415BC3668E8E95B,4FFDC9E2FB23D2C151B690A6,1AD14116908440C64A886934,AE8E6EFA151EF861D41F6564,46B3FCB1DC7D98C5900DDEA6,);};
 6943979B185589DFBF7064E3 = {isa = XCBuildConfiguration; name = Debug; buildSettings = {};};
 2ED68A5F095E2B7614BAD897 = {isa = XCConfigurationList; buildConfigurations = (6943979B185589DFBF7064E3,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug;};
 807FCFCA6CD3F6CF5B0E7549 = {isa = PBXProject; buildConfigurationList = 2ED68A5F095E2B7614BAD897; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; knownRegions = (en,); mainGroup = 3C733F4653DE0AF73A15D28A; projectDirPath = ""; projectRoot = ""; targets = (944DC7DA63A43ED3694E0DF2,FC3AC58AB547372D6593192C,);};
