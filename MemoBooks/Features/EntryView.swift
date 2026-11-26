@@ -49,7 +49,7 @@ struct EntryView: View {
                         if showPreview { preview.id("preview") }
                         if saved {
                             Label("저장했어요. 달력과 내역에 반영했어요", systemImage: "checkmark.circle.fill")
-                                .font(.subheadline.weight(.medium)).foregroundStyle(.teal)
+                                .font(.subheadline.weight(.medium)).foregroundStyle(AppStyle.accent)
                         }
                         if !status.isAvailable { availabilityCard }
                         Label("입력 내용은 서버로 전송하지 않아요", systemImage: "lock.shield")
@@ -82,10 +82,10 @@ struct EntryView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("오늘은 어디에\n쓰고, 무엇을 받았나요?").font(.largeTitle.bold())
-            Text("한 번에 한 건씩, 편하게 남겨 주세요")
+            Text("한 줄이면 충분해요").font(.title2.bold())
+            Text("말하거나 한 줄 입력하면 정리해 드려요")
                 .font(.subheadline).foregroundStyle(.secondary)
-        }.padding(.vertical, 8)
+        }.padding(.vertical, 4)
     }
 
     private var inputCard: some View {
@@ -96,11 +96,11 @@ struct EntryView: View {
                     Spacer()
                     if status.isAvailable {
                         Label("기기 내 AI", systemImage: "checkmark.shield.fill")
-                            .font(.caption2.weight(.medium)).foregroundStyle(.teal)
+                            .font(.caption2.weight(.medium)).foregroundStyle(AppStyle.accent)
                     }
                 }
                 TextField("예: 어제 점심 김치찌개 9000원", text: $input, axis: .vertical)
-                    .font(.title3).lineLimit(3...6).focused($inputFocused)
+                    .font(.body).lineLimit(2...4).focused($inputFocused)
                     .disabled(busy || showPreview).accessibilityLabel("수입 또는 지출 내용")
                 if !showPreview {
                     HStack {
@@ -120,7 +120,7 @@ struct EntryView: View {
                     } else {
                         Button(action: analyze) {
                             Label("AI로 정리하기", systemImage: "sparkles")
-                                .font(.headline).frame(maxWidth: .infinity).padding(.vertical, 10)
+                                .font(.headline).frame(maxWidth: .infinity).padding(.vertical, 12)
                         }.buttonStyle(.borderedProminent)
                             .disabled(busy || !status.isAvailable || input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || input.count > 500)
                         Button("직접 입력할게요") { openManual() }
@@ -143,8 +143,8 @@ struct EntryView: View {
             } label: {
                 HStack(spacing: 14) {
                     Image(systemName: voice.isRecording ? "stop.fill" : "mic.fill")
-                        .font(.title3).frame(width: 48, height: 48)
-                        .background(.teal.opacity(0.10), in: Circle())
+                        .font(.title2).frame(width: 56, height: 56)
+                        .background(AppStyle.accent.opacity(0.10), in: RoundedRectangle(cornerRadius: 16))
                     VStack(alignment: .leading, spacing: 4) {
                         Text(voice.isRecording ? "다 말했어요" : (voice.isStarting ? "음성 입력 취소" : "말로 남기기"))
                             .font(.subheadline.weight(.semibold))
@@ -152,7 +152,8 @@ struct EntryView: View {
                             .font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer(minLength: 0)
-                }
+                }.padding(14)
+                    .background(AppStyle.accent.opacity(0.06), in: RoundedRectangle(cornerRadius: 18))
             }.buttonStyle(.plain).disabled(isLoading)
             if let message = voice.message { Text(message).font(.caption).foregroundStyle(.secondary) }
             if input.isEmpty && !busy {

@@ -32,8 +32,8 @@ struct SettingsView: View {
             List {
                 Section {
                     HStack(spacing: 16) {
-                        Image(systemName: "leaf.fill").font(.largeTitle).foregroundStyle(.teal)
-                            .frame(width: 60, height: 60).background(.teal.opacity(0.09), in: RoundedRectangle(cornerRadius: 18))
+                        Image(systemName: "text.book.closed.fill").font(.largeTitle).foregroundStyle(AppStyle.accent)
+                            .frame(width: 60, height: 60).background(AppStyle.accent.opacity(0.09), in: RoundedRectangle(cornerRadius: 18))
                         VStack(alignment: .leading, spacing: 5) {
                             Text("메모가계부").font(.title3.bold())
                             Text("나의 기록이 머무는 곳").font(.subheadline).foregroundStyle(.secondary)

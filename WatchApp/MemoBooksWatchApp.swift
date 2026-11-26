@@ -23,7 +23,7 @@ struct WatchEntryView: View {
                 Button {
                     if sender.analyzeInput(text) { text = "" }
                 } label: { Label("AI로 정리하기", systemImage: "sparkles") }
-                    .buttonStyle(.borderedProminent).tint(.teal)
+                    .buttonStyle(.borderedProminent).tint(.indigo)
                     .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || text.count > 500 || !sender.ready || sender.busy)
                 if sender.busy { ProgressView("iPhone에서 처리 중") }
                 Text(sender.message).font(.caption2).foregroundStyle(.secondary)
@@ -102,7 +102,7 @@ struct WatchDraftView: View {
                 if sender.busy { ProgressView("저장 확인 중") }
                 Text(sender.message).font(.caption2).foregroundStyle(.secondary)
                 Button("확인하고 저장") { sender.save(edited) }
-                    .buttonStyle(.borderedProminent).tint(.teal).disabled(!valid || sender.busy)
+                    .buttonStyle(.borderedProminent).tint(.indigo).disabled(!valid || sender.busy)
             }.disabled(sender.busy)
                 .navigationTitle("기록 확인")
         }.interactiveDismissDisabled(sender.busy)

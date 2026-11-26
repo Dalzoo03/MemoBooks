@@ -47,7 +47,7 @@ struct HistoryView: View {
                         .buttonStyle(.plain)
                         .swipeActions {
                             Button("삭제", role: .destructive) { deleting = expense }
-                            Button("수정") { editing = expense }.tint(.teal)
+                            Button("수정") { editing = expense }.tint(AppStyle.accent)
                         }
                 }
             }
@@ -187,7 +187,7 @@ struct CalendarView: View {
                     }.buttonStyle(.borderless)
                     VStack(alignment: .leading, spacing: 8) {
                         Text("월 지출").font(.subheadline).foregroundStyle(.secondary)
-                        Text(won(total)).font(.largeTitle.bold()).foregroundStyle(.teal)
+                        Text(won(total)).font(.largeTitle.bold()).foregroundStyle(AppStyle.accent)
                         Text("수입 \(won(income)) · \(monthly.count)건 기록").font(.caption).foregroundStyle(.secondary)
                     }.padding(.vertical, 8)
                     calendarGrid(dayTotals: dayTotals)
@@ -206,7 +206,7 @@ struct CalendarView: View {
                     if budget > 0 {
                         LabeledContent("매월 기본 예산", value: won(budget))
                         ProgressView(value: min(Double(total) / Double(budget), 1))
-                            .tint(total > budget ? .orange : .teal)
+                            .tint(total > budget ? .orange : AppStyle.accent)
                         Text(total > budget ? "\(won(total - budget)) 초과했어요" : "\(won(budget - total)) 남았어요")
                             .foregroundStyle(total > budget ? .orange : .secondary)
                     } else { Text("예산을 정하고 남은 금액을 확인해 보세요").foregroundStyle(.secondary) }
@@ -220,7 +220,7 @@ struct CalendarView: View {
                     ForEach(categories, id: \.name) { item in
                         VStack(spacing: 6) {
                             LabeledContent(item.name, value: won(item.amount))
-                            ProgressView(value: total > 0 ? Double(item.amount) / Double(total) : 0).tint(.teal)
+                            ProgressView(value: total > 0 ? Double(item.amount) / Double(total) : 0).tint(AppStyle.accent)
                         }.padding(.vertical, 4)
                     }
                 }
@@ -272,12 +272,12 @@ struct CalendarView: View {
                             VStack(spacing: 4) {
                                 Text("\(calendar.component(.day, from: day))").font(.subheadline.bold())
                                 Text(value > 0 ? value.formatted(.number.notation(.compactName)) : " ")
-                                    .font(.system(size: 9)).lineLimit(1).minimumScaleFactor(0.5)
+                                    .font(.caption2).lineLimit(1).minimumScaleFactor(0.5)
                             }
                             .frame(maxWidth: .infinity, minHeight: 48)
                             .foregroundStyle(isSelected ? Color.white : Color.primary)
-                            .background(isSelected ? Color.teal : Color.clear, in: RoundedRectangle(cornerRadius: 10))
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(calendar.isDateInToday(day) ? Color.teal : .clear))
+                            .background(isSelected ? AppStyle.primaryFill : Color.clear, in: RoundedRectangle(cornerRadius: 10))
+                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(calendar.isDateInToday(day) ? AppStyle.accent : .clear))
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("\(day.formatted(.dateTime.month().day())), 지출 \(won(value))")
