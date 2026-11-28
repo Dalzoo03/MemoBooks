@@ -1,80 +1,481 @@
 // !$*UTF8*$!
-{ archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
-F4EF5AF39887FDA262A2D3DD = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/LedgerStore.swift"; sourceTree = "<group>"; };
-7920BC1F2F0805C22D582E90 = { isa = PBXBuildFile; fileRef = F4EF5AF39887FDA262A2D3DD; };
-875216BF7BBF1577DAFAB915 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/WatchLedgerService.swift"; sourceTree = "<group>"; };
-8143193DEF2F8682D2729BAA = { isa = PBXBuildFile; fileRef = 875216BF7BBF1577DAFAB915; };
-F9F17AF86B32800890B1D335 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLedgerMessages.swift; sourceTree = "<group>"; };
-DCF2B3AFA081C174C9D7D256 = { isa = PBXGroup; path = Shared; sourceTree = "<group>"; children = (F9F17AF86B32800890B1D335,); };
-77E55E11CF77FBACDF30D192 = { isa = PBXBuildFile; fileRef = F9F17AF86B32800890B1D335; };
-8BC485CC55C0BF4BF1EAC2E9 = { isa = PBXBuildFile; fileRef = F9F17AF86B32800890B1D335; };
-767AC26D246AFCFAAAF08E85 = { isa = PBXBuildFile; fileRef = 9F4F21FBDF9E996FAF8029BD; };
-0DC5A029C4AEADE982C4FC65 = { isa = PBXBuildFile; fileRef = 3B4D0A1C8031B3F2E2605101; };
-31924BA9657C091C7605B762 = { isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-07B760A8663938679E1BD8F1 = { isa = PBXBuildFile; fileRef = 31924BA9657C091C7605B762; };
-411C93308085A7B4EC6FF666 = { isa = PBXBuildFile; fileRef = 31924BA9657C091C7605B762; };
-4FB5962ADE3FED0012F31D5D = { isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-04200CFFD12D083534B07BB1 = { isa = PBXBuildFile; fileRef = 4FB5962ADE3FED0012F31D5D; };
-9F4F21FBDF9E996FAF8029BD = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/LedgerTypes.swift"; sourceTree = "<group>"; };
-AE56B070ECE029359F134EF3 = { isa = PBXBuildFile; fileRef = 9F4F21FBDF9E996FAF8029BD; };
-BD00B8EA2022490CCD639210 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/BackupService.swift"; sourceTree = "<group>"; };
-9C81979B1F10C72E1579A958 = { isa = PBXBuildFile; fileRef = BD00B8EA2022490CCD639210; };
-0D3ACA3816F952DF8C55E973 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/AppDesign.swift"; sourceTree = "<group>"; };
-DE18B304BE5D21CB233BA788 = { isa = PBXBuildFile; fileRef = 0D3ACA3816F952DF8C55E973; };
-D5BAEE75A719B64ECB314F7B = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/HomeView.swift"; sourceTree = "<group>"; };
-33B9B9F639D040388F29BCDA = { isa = PBXBuildFile; fileRef = D5BAEE75A719B64ECB314F7B; };
-6AD8F7CB2A861CAC30C8A3B3 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/SettingsView.swift"; sourceTree = "<group>"; };
-3E3CAD3AA6A7A5BAB7506B34 = { isa = PBXBuildFile; fileRef = 6AD8F7CB2A861CAC30C8A3B3; };
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
 
-89F6733F4939E524518C99C1 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/VoiceInput.swift"; sourceTree = "<group>"; };
-08BCA9DBD78BC6AC820AD358 = { isa = PBXBuildFile; fileRef = 89F6733F4939E524518C99C1; };
-0F3B230B7B8762CC684AB7F1 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/WatchInbox.swift"; sourceTree = "<group>"; };
-15B8C664FEB0C6C3912B37AE = { isa = PBXBuildFile; fileRef = 0F3B230B7B8762CC684AB7F1; };
-3C246A56DB2A8B077B073B75 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoBooksWatchApp.swift; sourceTree = "<group>"; };
-89D3D933EBDB483B501B84A6 = { isa = PBXBuildFile; fileRef = 3C246A56DB2A8B077B073B75; };
-A10000000000000000000001 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOutbox.swift; sourceTree = "<group>"; };
-A10000000000000000000002 = { isa = PBXBuildFile; fileRef = A10000000000000000000001; };
-E17CD9C2F6CA93B48E1487E1 = { isa = PBXGroup; path = WatchApp; sourceTree = "<group>"; children = (3C246A56DB2A8B077B073B75,A10000000000000000000001,); };
-27DDAA7C6240B9E2D7F7077D = { isa = PBXFileReference; explicitFileType = wrapper.application; path = MemoBooksWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-4017DABA841E9BAC1DE7CA1B = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (8BC485CC55C0BF4BF1EAC2E9,767AC26D246AFCFAAAF08E85,0DC5A029C4AEADE982C4FC65,89D3D933EBDB483B501B84A6,A10000000000000000000002,); runOnlyForDeploymentPostprocessing = 0; };
-E16082EC5A0F0AA7D4F7D447 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-2AAF83F2B39CD042BC3AA1A7 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (411C93308085A7B4EC6FF666,); runOnlyForDeploymentPostprocessing = 0; };
-C8172B64C9559963A405112B = { isa = XCConfigurationList; buildConfigurations = (B94ADE8845AE01A586200B9E,1A5A43ACD255A0117B11BF6E,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-217B52D2F85A49B551CA544A = { isa = PBXNativeTarget; buildConfigurationList = C8172B64C9559963A405112B; buildPhases = (4017DABA841E9BAC1DE7CA1B,E16082EC5A0F0AA7D4F7D447,2AAF83F2B39CD042BC3AA1A7,); buildRules = (); dependencies = (); name = MemoBooksWatch; productName = MemoBooksWatch; productReference = 27DDAA7C6240B9E2D7F7077D; productType = "com.apple.product-type.application"; };
-F203202F4A0AC5A679A87243 = { isa = PBXBuildFile; fileRef = 27DDAA7C6240B9E2D7F7077D; settings = { ATTRIBUTES = (RemoveHeadersOnCopy,); }; };
-14AFECB82F9EBF843246F3E0 = { isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = "$(CONTENTS_FOLDER_PATH)/Watch"; dstSubfolderSpec = 16; files = (F203202F4A0AC5A679A87243,); name = "Embed Watch Content"; runOnlyForDeploymentPostprocessing = 0; };
-670D34D486D4143501C70D55 = { isa = PBXContainerItemProxy; containerPortal = 98F54143AB4E86B28C3AFEE0; proxyType = 1; remoteGlobalIDString = 217B52D2F85A49B551CA544A; remoteInfo = MemoBooksWatch; };
-951D6738C015F691F40A72B0 = { isa = PBXTargetDependency; target = 217B52D2F85A49B551CA544A; targetProxy = 670D34D486D4143501C70D55; };
-B94ADE8845AE01A586200B9E = { isa = XCBuildConfiguration; name = Debug; buildSettings = { SDKROOT = watchos; WATCHOS_DEPLOYMENT_TARGET = 26.0; SWIFT_VERSION = 5.0; SWIFT_STRICT_CONCURRENCY = complete; PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks.watchkitapp; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "메모가계부"; INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.example.MemoBooks; INFOPLIST_KEY_WKApplication = YES; TARGETED_DEVICE_FAMILY = 4; CODE_SIGN_STYLE = Automatic; SUPPORTED_PLATFORMS = "watchos watchsimulator"; SKIP_INSTALL = YES; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; }; };
-1A5A43ACD255A0117B11BF6E = { isa = XCBuildConfiguration; name = Release; buildSettings = { SDKROOT = watchos; WATCHOS_DEPLOYMENT_TARGET = 26.0; SWIFT_VERSION = 5.0; SWIFT_STRICT_CONCURRENCY = complete; PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks.watchkitapp; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "메모가계부"; INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.example.MemoBooks; INFOPLIST_KEY_WKApplication = YES; TARGETED_DEVICE_FAMILY = 4; CODE_SIGN_STYLE = Automatic; SUPPORTED_PLATFORMS = "watchos watchsimulator"; SKIP_INSTALL = YES; SWIFT_OPTIMIZATION_LEVEL = "-O"; }; };
+/* Begin PBXBuildFile section */
+		A20000000000000000000002 /* Watch Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* Assets.xcassets */; };
+		04200CFFD12D083534B07BB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5962ADE3FED0012F31D5D /* Assets.xcassets */; };
+		07B760A8663938679E1BD8F1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 31924BA9657C091C7605B762 /* PrivacyInfo.xcprivacy */; };
+		08BCA9DBD78BC6AC820AD358 /* Services/VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F6733F4939E524518C99C1 /* Services/VoiceInput.swift */; };
+		0DC5A029C4AEADE982C4FC65 /* Services/DraftValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4D0A1C8031B3F2E2605101 /* Services/DraftValidation.swift */; };
+		15B8C664FEB0C6C3912B37AE /* Services/WatchInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3B230B7B8762CC684AB7F1 /* Services/WatchInbox.swift */; };
+		28F49E2B790DF3712044DDF1 /* App/MemoBooksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE47E24FD893B71CE0359B7 /* App/MemoBooksApp.swift */; };
+		33B9B9F639D040388F29BCDA /* Features/HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BAEE75A719B64ECB314F7B /* Features/HomeView.swift */; };
+		3E3CAD3AA6A7A5BAB7506B34 /* Features/SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD8F7CB2A861CAC30C8A3B3 /* Features/SettingsView.swift */; };
+		411C93308085A7B4EC6FF666 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 31924BA9657C091C7605B762 /* PrivacyInfo.xcprivacy */; };
+		767AC26D246AFCFAAAF08E85 /* Models/LedgerTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4F21FBDF9E996FAF8029BD /* Models/LedgerTypes.swift */; };
+		77E55E11CF77FBACDF30D192 /* WatchLedgerMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F17AF86B32800890B1D335 /* WatchLedgerMessages.swift */; };
+		7920BC1F2F0805C22D582E90 /* Services/LedgerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EF5AF39887FDA262A2D3DD /* Services/LedgerStore.swift */; };
+		8123D09FD1E7F99210420F6E /* Services/ExpenseParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E408E71438FA6AAD1AF492 /* Services/ExpenseParsingService.swift */; };
+		8143193DEF2F8682D2729BAA /* Services/WatchLedgerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875216BF7BBF1577DAFAB915 /* Services/WatchLedgerService.swift */; };
+		89D3D933EBDB483B501B84A6 /* MemoBooksWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C246A56DB2A8B077B073B75 /* MemoBooksWatchApp.swift */; };
+		8BC485CC55C0BF4BF1EAC2E9 /* WatchLedgerMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F17AF86B32800890B1D335 /* WatchLedgerMessages.swift */; };
+		9C81979B1F10C72E1579A958 /* Services/BackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00B8EA2022490CCD639210 /* Services/BackupService.swift */; };
+		9D9583BFD0ABA2B2F892A059 /* Models/Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77649A2FC140A5B5A468EA54 /* Models/Expense.swift */; };
+		A10000000000000000000002 /* WatchOutbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000001 /* WatchOutbox.swift */; };
+		A384FD97B84131DDDDC91EC3 /* Features/EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8431F920B88113D3F8EA1E /* Features/EntryView.swift */; };
+		A6229C485F76DD871A07BD8D /* Services/DraftValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4D0A1C8031B3F2E2605101 /* Services/DraftValidation.swift */; };
+		AE56B070ECE029359F134EF3 /* Models/LedgerTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4F21FBDF9E996FAF8029BD /* Models/LedgerTypes.swift */; };
+		BF3D561DF1BC09BB65CBDC52 /* Features/HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8952A8E7EF4B995B415275 /* Features/HistoryView.swift */; };
+		DE18B304BE5D21CB233BA788 /* Features/AppDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ACA3816F952DF8C55E973 /* Features/AppDesign.swift */; };
+		E65DE7B357C7872C1B43CDCC /* Models/ExpenseDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FD22274B45BDC63A1BBF71 /* Models/ExpenseDraft.swift */; };
+		F203202F4A0AC5A679A87243 /* MemoBooksWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 27DDAA7C6240B9E2D7F7077D /* MemoBooksWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
 
-ABE47E24FD893B71CE0359B7 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/MemoBooksApp.swift"; sourceTree = "<group>"; };
-28F49E2B790DF3712044DDF1 = { isa = PBXBuildFile; fileRef = ABE47E24FD893B71CE0359B7; };
-1E8431F920B88113D3F8EA1E = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/EntryView.swift"; sourceTree = "<group>"; };
-A384FD97B84131DDDDC91EC3 = { isa = PBXBuildFile; fileRef = 1E8431F920B88113D3F8EA1E; };
-8F8952A8E7EF4B995B415275 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/HistoryView.swift"; sourceTree = "<group>"; };
-BF3D561DF1BC09BB65CBDC52 = { isa = PBXBuildFile; fileRef = 8F8952A8E7EF4B995B415275; };
-77649A2FC140A5B5A468EA54 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/Expense.swift"; sourceTree = "<group>"; };
-9D9583BFD0ABA2B2F892A059 = { isa = PBXBuildFile; fileRef = 77649A2FC140A5B5A468EA54; };
-B4FD22274B45BDC63A1BBF71 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/ExpenseDraft.swift"; sourceTree = "<group>"; };
-E65DE7B357C7872C1B43CDCC = { isa = PBXBuildFile; fileRef = B4FD22274B45BDC63A1BBF71; };
-3B4D0A1C8031B3F2E2605101 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/DraftValidation.swift"; sourceTree = "<group>"; };
-A6229C485F76DD871A07BD8D = { isa = PBXBuildFile; fileRef = 3B4D0A1C8031B3F2E2605101; };
-A2E408E71438FA6AAD1AF492 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/ExpenseParsingService.swift"; sourceTree = "<group>"; };
-8123D09FD1E7F99210420F6E = { isa = PBXBuildFile; fileRef = A2E408E71438FA6AAD1AF492; };
-38A007151ABE87CC01A5B6E9 = { isa = PBXFileReference; explicitFileType = wrapper.application; path = MemoBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
-958B6263A0B70C847CDA462B = { isa = PBXGroup; path = MemoBooks; sourceTree = "<group>"; children = (F4EF5AF39887FDA262A2D3DD,875216BF7BBF1577DAFAB915,31924BA9657C091C7605B762,4FB5962ADE3FED0012F31D5D,9F4F21FBDF9E996FAF8029BD,BD00B8EA2022490CCD639210,0D3ACA3816F952DF8C55E973,D5BAEE75A719B64ECB314F7B,6AD8F7CB2A861CAC30C8A3B3,0F3B230B7B8762CC684AB7F1,89F6733F4939E524518C99C1,ABE47E24FD893B71CE0359B7,1E8431F920B88113D3F8EA1E,8F8952A8E7EF4B995B415275,77649A2FC140A5B5A468EA54,B4FD22274B45BDC63A1BBF71,3B4D0A1C8031B3F2E2605101,A2E408E71438FA6AAD1AF492,); };
-FBDC4F23F93125BBEEAE800C = { isa = PBXGroup; children = (27DDAA7C6240B9E2D7F7077D,38A007151ABE87CC01A5B6E9,); name = Products; sourceTree = "<group>"; };
-DC76E9F0C0006E8F919E0C51 = { isa = PBXGroup; children = (DCF2B3AFA081C174C9D7D256,E17CD9C2F6CA93B48E1487E1,958B6263A0B70C847CDA462B,FBDC4F23F93125BBEEAE800C,); sourceTree = "<group>"; };
-BCE16DD0260827ECF338C787 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (7920BC1F2F0805C22D582E90,8143193DEF2F8682D2729BAA,77E55E11CF77FBACDF30D192,AE56B070ECE029359F134EF3,9C81979B1F10C72E1579A958,DE18B304BE5D21CB233BA788,33B9B9F639D040388F29BCDA,3E3CAD3AA6A7A5BAB7506B34,15B8C664FEB0C6C3912B37AE,08BCA9DBD78BC6AC820AD358,28F49E2B790DF3712044DDF1,A384FD97B84131DDDDC91EC3,BF3D561DF1BC09BB65CBDC52,9D9583BFD0ABA2B2F892A059,E65DE7B357C7872C1B43CDCC,A6229C485F76DD871A07BD8D,8123D09FD1E7F99210420F6E,); runOnlyForDeploymentPostprocessing = 0; };
-7561BFB015D8F536760CB671 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-0189424A5A60FED329FA868E = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (07B760A8663938679E1BD8F1,04200CFFD12D083534B07BB1,); runOnlyForDeploymentPostprocessing = 0; };
-89E1FD6268CC0F221A2BE178 = { isa = XCBuildConfiguration; name = Debug; buildSettings = { CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 26.0; SWIFT_VERSION = 5.0; SWIFT_STRICT_CONCURRENCY = complete; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; }; };
-7082CC0B6FC1282FCEABD07A = { isa = XCBuildConfiguration; name = Debug; buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_NSMicrophoneUsageDescription = "지출 내용을 음성으로 입력하기 위해 마이크를 사용해요"; INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말한 지출 내용을 기기 안에서 텍스트로 변환해요"; INFOPLIST_KEY_CFBundleDisplayName = "메모가계부"; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_STYLE = Automatic; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SWIFT_EMIT_LOC_STRINGS = YES; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; MARKETING_VERSION = 0.2.0; CURRENT_PROJECT_VERSION = 2; }; };
-E6DE6C99132752C914FEF632 = { isa = XCBuildConfiguration; name = Release; buildSettings = { CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 26.0; SWIFT_VERSION = 5.0; SWIFT_STRICT_CONCURRENCY = complete; SWIFT_COMPILATION_MODE = wholemodule; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; }; };
-639A7CA24D39909E713B47F7 = { isa = XCBuildConfiguration; name = Release; buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_NSMicrophoneUsageDescription = "지출 내용을 음성으로 입력하기 위해 마이크를 사용해요"; INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말한 지출 내용을 기기 안에서 텍스트로 변환해요"; INFOPLIST_KEY_CFBundleDisplayName = "메모가계부"; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_STYLE = Automatic; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SWIFT_EMIT_LOC_STRINGS = YES; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; MARKETING_VERSION = 0.2.0; CURRENT_PROJECT_VERSION = 2; }; };
-862894B703A6DEDF96A9DD6C = { isa = XCConfigurationList; buildConfigurations = (89E1FD6268CC0F221A2BE178,E6DE6C99132752C914FEF632,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-C57128001CE614BF8549D6BB = { isa = XCConfigurationList; buildConfigurations = (7082CC0B6FC1282FCEABD07A,639A7CA24D39909E713B47F7,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-0E8A3AD980EC179856012B7E = { isa = PBXNativeTarget; buildConfigurationList = C57128001CE614BF8549D6BB; buildPhases = (BCE16DD0260827ECF338C787,7561BFB015D8F536760CB671,0189424A5A60FED329FA868E,14AFECB82F9EBF843246F3E0,); buildRules = (); dependencies = (951D6738C015F691F40A72B0,); name = MemoBooks; productName = MemoBooks; productReference = 38A007151ABE87CC01A5B6E9; productType = "com.apple.product-type.application"; };
-98F54143AB4E86B28C3AFEE0 = { isa = PBXProject; attributes = { BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 2700; TargetAttributes = { 0E8A3AD980EC179856012B7E = { CreatedOnToolsVersion = 27.0; }; }; }; buildConfigurationList = 862894B703A6DEDF96A9DD6C; compatibilityVersion = "Xcode 14.0"; developmentRegion = ko; hasScannedForEncodings = 0; knownRegions = (ko,en,Base); mainGroup = DC76E9F0C0006E8F919E0C51; productRefGroup = FBDC4F23F93125BBEEAE800C; projectDirPath = ""; projectRoot = ""; targets = (0E8A3AD980EC179856012B7E,217B52D2F85A49B551CA544A,); };
-}; rootObject = 98F54143AB4E86B28C3AFEE0; }
+/* Begin PBXContainerItemProxy section */
+		670D34D486D4143501C70D55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 217B52D2F85A49B551CA544A;
+			remoteInfo = MemoBooksWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		14AFECB82F9EBF843246F3E0 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				F203202F4A0AC5A679A87243 /* MemoBooksWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0D3ACA3816F952DF8C55E973 /* Features/AppDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppDesign.swift; sourceTree = "<group>"; };
+		0F3B230B7B8762CC684AB7F1 /* Services/WatchInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/WatchInbox.swift; sourceTree = "<group>"; };
+		1E8431F920B88113D3F8EA1E /* Features/EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/EntryView.swift; sourceTree = "<group>"; };
+		27DDAA7C6240B9E2D7F7077D /* MemoBooksWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = MemoBooksWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31924BA9657C091C7605B762 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		38A007151ABE87CC01A5B6E9 /* MemoBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = MemoBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4D0A1C8031B3F2E2605101 /* Services/DraftValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/DraftValidation.swift; sourceTree = "<group>"; };
+		3C246A56DB2A8B077B073B75 /* MemoBooksWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoBooksWatchApp.swift; sourceTree = "<group>"; };
+		4FB5962ADE3FED0012F31D5D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6AD8F7CB2A861CAC30C8A3B3 /* Features/SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/SettingsView.swift; sourceTree = "<group>"; };
+		77649A2FC140A5B5A468EA54 /* Models/Expense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Expense.swift; sourceTree = "<group>"; };
+		875216BF7BBF1577DAFAB915 /* Services/WatchLedgerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/WatchLedgerService.swift; sourceTree = "<group>"; };
+		89F6733F4939E524518C99C1 /* Services/VoiceInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/VoiceInput.swift; sourceTree = "<group>"; };
+		8F8952A8E7EF4B995B415275 /* Features/HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/HistoryView.swift; sourceTree = "<group>"; };
+		9F4F21FBDF9E996FAF8029BD /* Models/LedgerTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/LedgerTypes.swift; sourceTree = "<group>"; };
+		A10000000000000000000001 /* WatchOutbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOutbox.swift; sourceTree = "<group>"; };
+		A2E408E71438FA6AAD1AF492 /* Services/ExpenseParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/ExpenseParsingService.swift; sourceTree = "<group>"; };
+		ABE47E24FD893B71CE0359B7 /* App/MemoBooksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/MemoBooksApp.swift; sourceTree = "<group>"; };
+		B4FD22274B45BDC63A1BBF71 /* Models/ExpenseDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/ExpenseDraft.swift; sourceTree = "<group>"; };
+		BD00B8EA2022490CCD639210 /* Services/BackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/BackupService.swift; sourceTree = "<group>"; };
+		D5BAEE75A719B64ECB314F7B /* Features/HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/HomeView.swift; sourceTree = "<group>"; };
+		F4EF5AF39887FDA262A2D3DD /* Services/LedgerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/LedgerStore.swift; sourceTree = "<group>"; };
+		F9F17AF86B32800890B1D335 /* WatchLedgerMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLedgerMessages.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7561BFB015D8F536760CB671 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E16082EC5A0F0AA7D4F7D447 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		958B6263A0B70C847CDA462B /* MemoBooks */ = {
+			isa = PBXGroup;
+			children = (
+				F4EF5AF39887FDA262A2D3DD /* Services/LedgerStore.swift */,
+				875216BF7BBF1577DAFAB915 /* Services/WatchLedgerService.swift */,
+				31924BA9657C091C7605B762 /* PrivacyInfo.xcprivacy */,
+				4FB5962ADE3FED0012F31D5D /* Assets.xcassets */,
+				9F4F21FBDF9E996FAF8029BD /* Models/LedgerTypes.swift */,
+				BD00B8EA2022490CCD639210 /* Services/BackupService.swift */,
+				0D3ACA3816F952DF8C55E973 /* Features/AppDesign.swift */,
+				D5BAEE75A719B64ECB314F7B /* Features/HomeView.swift */,
+				6AD8F7CB2A861CAC30C8A3B3 /* Features/SettingsView.swift */,
+				0F3B230B7B8762CC684AB7F1 /* Services/WatchInbox.swift */,
+				89F6733F4939E524518C99C1 /* Services/VoiceInput.swift */,
+				ABE47E24FD893B71CE0359B7 /* App/MemoBooksApp.swift */,
+				1E8431F920B88113D3F8EA1E /* Features/EntryView.swift */,
+				8F8952A8E7EF4B995B415275 /* Features/HistoryView.swift */,
+				77649A2FC140A5B5A468EA54 /* Models/Expense.swift */,
+				B4FD22274B45BDC63A1BBF71 /* Models/ExpenseDraft.swift */,
+				3B4D0A1C8031B3F2E2605101 /* Services/DraftValidation.swift */,
+				A2E408E71438FA6AAD1AF492 /* Services/ExpenseParsingService.swift */,
+			);
+			path = MemoBooks;
+			sourceTree = "<group>";
+		};
+		DC76E9F0C0006E8F919E0C51 = {
+			isa = PBXGroup;
+			children = (
+				DCF2B3AFA081C174C9D7D256 /* Shared */,
+				E17CD9C2F6CA93B48E1487E1 /* WatchApp */,
+				958B6263A0B70C847CDA462B /* MemoBooks */,
+				FBDC4F23F93125BBEEAE800C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DCF2B3AFA081C174C9D7D256 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				F9F17AF86B32800890B1D335 /* WatchLedgerMessages.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		E17CD9C2F6CA93B48E1487E1 /* WatchApp */ = {
+			isa = PBXGroup;
+			children = (
+				3C246A56DB2A8B077B073B75 /* MemoBooksWatchApp.swift */,
+				A20000000000000000000001 /* Assets.xcassets */,
+				A10000000000000000000001 /* WatchOutbox.swift */,
+			);
+			path = WatchApp;
+			sourceTree = "<group>";
+		};
+		FBDC4F23F93125BBEEAE800C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				27DDAA7C6240B9E2D7F7077D /* MemoBooksWatch.app */,
+				38A007151ABE87CC01A5B6E9 /* MemoBooks.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E8A3AD980EC179856012B7E /* MemoBooks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C57128001CE614BF8549D6BB /* Build configuration list for PBXNativeTarget "MemoBooks" */;
+			buildPhases = (
+				BCE16DD0260827ECF338C787 /* Sources */,
+				7561BFB015D8F536760CB671 /* Frameworks */,
+				0189424A5A60FED329FA868E /* Resources */,
+				14AFECB82F9EBF843246F3E0 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				951D6738C015F691F40A72B0 /* PBXTargetDependency */,
+			);
+			name = MemoBooks;
+			productName = MemoBooks;
+			productReference = 38A007151ABE87CC01A5B6E9 /* MemoBooks.app */;
+			productType = "com.apple.product-type.application";
+		};
+		217B52D2F85A49B551CA544A /* MemoBooksWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8172B64C9559963A405112B /* Build configuration list for PBXNativeTarget "MemoBooksWatch" */;
+			buildPhases = (
+				4017DABA841E9BAC1DE7CA1B /* Sources */,
+				E16082EC5A0F0AA7D4F7D447 /* Frameworks */,
+				2AAF83F2B39CD042BC3AA1A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MemoBooksWatch;
+			productName = MemoBooksWatch;
+			productReference = 27DDAA7C6240B9E2D7F7077D /* MemoBooksWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98F54143AB4E86B28C3AFEE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					0E8A3AD980EC179856012B7E = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = 862894B703A6DEDF96A9DD6C /* Build configuration list for PBXProject "MemoBooks" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ko;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				ko,
+				en,
+				Base,
+			);
+			mainGroup = DC76E9F0C0006E8F919E0C51;
+			productRefGroup = FBDC4F23F93125BBEEAE800C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E8A3AD980EC179856012B7E /* MemoBooks */,
+				217B52D2F85A49B551CA544A /* MemoBooksWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0189424A5A60FED329FA868E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07B760A8663938679E1BD8F1 /* PrivacyInfo.xcprivacy in Resources */,
+				04200CFFD12D083534B07BB1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AAF83F2B39CD042BC3AA1A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				411C93308085A7B4EC6FF666 /* PrivacyInfo.xcprivacy in Resources */,
+				A20000000000000000000002 /* Watch Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4017DABA841E9BAC1DE7CA1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BC485CC55C0BF4BF1EAC2E9 /* WatchLedgerMessages.swift in Sources */,
+				767AC26D246AFCFAAAF08E85 /* Models/LedgerTypes.swift in Sources */,
+				0DC5A029C4AEADE982C4FC65 /* Services/DraftValidation.swift in Sources */,
+				89D3D933EBDB483B501B84A6 /* MemoBooksWatchApp.swift in Sources */,
+				A10000000000000000000002 /* WatchOutbox.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCE16DD0260827ECF338C787 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7920BC1F2F0805C22D582E90 /* Services/LedgerStore.swift in Sources */,
+				8143193DEF2F8682D2729BAA /* Services/WatchLedgerService.swift in Sources */,
+				77E55E11CF77FBACDF30D192 /* WatchLedgerMessages.swift in Sources */,
+				AE56B070ECE029359F134EF3 /* Models/LedgerTypes.swift in Sources */,
+				9C81979B1F10C72E1579A958 /* Services/BackupService.swift in Sources */,
+				DE18B304BE5D21CB233BA788 /* Features/AppDesign.swift in Sources */,
+				33B9B9F639D040388F29BCDA /* Features/HomeView.swift in Sources */,
+				3E3CAD3AA6A7A5BAB7506B34 /* Features/SettingsView.swift in Sources */,
+				15B8C664FEB0C6C3912B37AE /* Services/WatchInbox.swift in Sources */,
+				08BCA9DBD78BC6AC820AD358 /* Services/VoiceInput.swift in Sources */,
+				28F49E2B790DF3712044DDF1 /* App/MemoBooksApp.swift in Sources */,
+				A384FD97B84131DDDDC91EC3 /* Features/EntryView.swift in Sources */,
+				BF3D561DF1BC09BB65CBDC52 /* Features/HistoryView.swift in Sources */,
+				9D9583BFD0ABA2B2F892A059 /* Models/Expense.swift in Sources */,
+				E65DE7B357C7872C1B43CDCC /* Models/ExpenseDraft.swift in Sources */,
+				A6229C485F76DD871A07BD8D /* Services/DraftValidation.swift in Sources */,
+				8123D09FD1E7F99210420F6E /* Services/ExpenseParsingService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		951D6738C015F691F40A72B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 217B52D2F85A49B551CA544A /* MemoBooksWatch */;
+			targetProxy = 670D34D486D4143501C70D55 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1A5A43ACD255A0117B11BF6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = OwlLog;
+				INFOPLIST_KEY_WKApplication = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 2;
+				MARKETING_VERSION = 0.2.0;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.example.MemoBooks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		639A7CA24D39909E713B47F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = OwlLog;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "지출 내용을 음성으로 입력하기 위해 마이크를 사용해요";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말한 지출 내용을 기기 안에서 텍스트로 변환해요";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				MARKETING_VERSION = 0.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		7082CC0B6FC1282FCEABD07A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = OwlLog;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "지출 내용을 음성으로 입력하기 위해 마이크를 사용해요";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말한 지출 내용을 기기 안에서 텍스트로 변환해요";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				MARKETING_VERSION = 0.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		89E1FD6268CC0F221A2BE178 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B94ADE8845AE01A586200B9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = OwlLog;
+				INFOPLIST_KEY_WKApplication = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 2;
+				MARKETING_VERSION = 0.2.0;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.example.MemoBooks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MemoBooks.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		E6DE6C99132752C914FEF632 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		862894B703A6DEDF96A9DD6C /* Build configuration list for PBXProject "MemoBooks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89E1FD6268CC0F221A2BE178 /* Debug */,
+				E6DE6C99132752C914FEF632 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C57128001CE614BF8549D6BB /* Build configuration list for PBXNativeTarget "MemoBooks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7082CC0B6FC1282FCEABD07A /* Debug */,
+				639A7CA24D39909E713B47F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8172B64C9559963A405112B /* Build configuration list for PBXNativeTarget "MemoBooksWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B94ADE8845AE01A586200B9E /* Debug */,
+				1A5A43ACD255A0117B11BF6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+}

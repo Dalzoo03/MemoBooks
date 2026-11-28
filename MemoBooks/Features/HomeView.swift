@@ -1,12 +1,10 @@
 import SwiftUI
 import SwiftData
 
+// Financial totals stay deterministic; this screen does not present generated advice.
 struct HomeView: View {
     @Query(sort: \Expense.date, order: .reverse) private var records: [Expense]
     @AppStorage("monthlyExpenseBudget") private var budget = 0
-    @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
-    @State private var showWelcome = false
-    @State private var editing: Expense?
     let openEntry: () -> Void
     let openCalendar: () -> Void
     let openHistory: () -> Void
@@ -17,118 +15,85 @@ struct HomeView: View {
     }
     private var spent: Int { month.filter { $0.kind == .expense }.reduce(0) { $0 + $1.amount } }
     private var earned: Int { month.filter { $0.kind == .income }.reduce(0) { $0 + $1.amount } }
-    private var todaySpent: Int {
-        month.filter { $0.kind == .expense && calendar.isDateInToday($0.date) }.reduce(0) { $0 + $1.amount }
+    private var categories: [(name: String, amount: Int)] {
+        Dictionary(grouping: month.filter { $0.kind == .expense }, by: \Expense.category)
+            .map { (name: $0.key, amount: $0.value.reduce(0) { $0 + $1.amount }) }
+            .sorted { $0.amount == $1.amount ? $0.name < $1.name : $0.amount > $1.amount }
     }
-
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(Date.now, format: .dateTime.year().month()).font(.subheadline).foregroundStyle(.secondary)
-                            Text("나의 가계부").font(.title2.bold())
-                        }
-                        Spacer()
-                        Image(systemName: "text.book.closed.fill").font(.title3)
-                            .foregroundStyle(AppStyle.accent).padding(12)
-                            .background(AppStyle.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
-                            .accessibilityHidden(true)
-                    }
-                    summary
-                    Button(action: openEntry) {
-                        HStack(spacing: 12) {
-                            Image(systemName: "waveform").font(.title3)
-                            Text("한 줄로 기록하기").font(.headline)
-                            Spacer()
-                            Image(systemName: "plus").font(.headline)
-                        }.padding(18).foregroundStyle(.white)
-                            .background(AppStyle.primaryFill, in: RoundedRectangle(cornerRadius: 18))
-                    }.buttonStyle(.plain)
-                    HStack {
-                        Text("최근 거래").font(.headline)
-                        Spacer()
-                        Button("전체 보기", action: openHistory).font(.subheadline)
-                    }.padding(.top, 4)
-                    LedgerCard {
-                        if records.isEmpty {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Image(systemName: "text.book.closed").font(.title).foregroundStyle(AppStyle.accent)
-                                Text("첫 기록부터 시작해 볼까요?").font(.headline)
-                                Text("“점심 9000원”처럼 적으면\n금액과 분류를 정리해 드려요.")
-                                    .font(.subheadline).foregroundStyle(.secondary)
-                                Button("첫 기록 남기기", action: openEntry).buttonStyle(.bordered)
-                            }
-                        } else {
-                            VStack(spacing: 0) {
-                                ForEach(Array(records.prefix(6))) { record in
-                                    Button { editing = record } label: { LedgerRow(expense: record) }.buttonStyle(.plain)
-                                    if record.persistentModelID != records.prefix(6).last?.persistentModelID { Divider() }
-                                }
-                            }
-                        }
-                    }
-                    Label("AI 분석은 기기 안에서, 저장은 확인한 뒤에", systemImage: "lock.shield")
-                        .font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity).padding(.vertical, 6)
-                }.padding(20)
-            }
-            .background(AppStyle.canvas)
-            .toolbar(.hidden, for: .navigationBar)
-            .sheet(item: $editing) { ExpenseEditor(expense: $0) }
-            .sheet(isPresented: $showWelcome, onDismiss: { hasSeenWelcome = true }) { WelcomeView(onStart: openEntry) }
-            .onAppear { if !hasSeenWelcome { showWelcome = true } }
-        }
-    }
-
-    private var summary: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            HStack {
-                Label("이번 달 지출", systemImage: "arrow.up.right").font(.subheadline)
-                Spacer()
-                Button(action: openCalendar) { Image(systemName: "calendar").padding(8) }
-                    .accessibilityLabel("소비 달력 보기")
-            }.foregroundStyle(.white.opacity(0.8))
-            Text(currencyText(spent))
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                .monospacedDigit().lineLimit(1).minimumScaleFactor(0.5)
-            Divider().overlay(.white.opacity(0.15))
-            ViewThatFits(in: .horizontal) {
-                HStack {
-                    amountLabel("수입", amount: earned, color: .white)
-                    Spacer()
-                    amountLabel("수입 − 지출", amount: earned - spent, color: .white)
-                }
                 VStack(alignment: .leading, spacing: 16) {
-                    amountLabel("수입", amount: earned, color: .white)
-                    amountLabel("수입 − 지출", amount: earned - spent, color: .white)
-                }
-            }
-            if budget > 0 {
-                HStack {
-                    Text("월 예산").font(.caption)
-                    Spacer()
-                    Text(spent > budget ? "\(currencyText(spent - budget)) 초과" : "\(currencyText(budget - spent)) 남음")
-                        .font(.caption.weight(.medium))
-                }.foregroundStyle(.white.opacity(0.85))
-                ProgressView(value: min(Double(spent) / Double(budget), 1))
-                    .tint(spent > budget ? Color.orange : Color.mint)
-            }
-            HStack(spacing: 6) {
-                Circle().fill(Color.mint).frame(width: 6, height: 6).accessibilityHidden(true)
-                Text("오늘 지출 \(currencyText(todaySpent))").font(.caption)
-            }.foregroundStyle(.white.opacity(0.8))
-        }.foregroundStyle(.white).padding(22)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(AppStyle.hero, in: RoundedRectangle(cornerRadius: 24))
-    }
-    private func amountLabel(_ title: String, amount: Int, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.caption).foregroundStyle(.white.opacity(0.7))
-            Text(currencyText(amount)).font(.headline).foregroundStyle(color).monospacedDigit()
+                    HStack {
+                        OwlMark(); Text("소비 요약").font(.title2.bold())
+                        Spacer()
+                        Text(Date.now, format: .dateTime.month()).font(.caption.weight(.medium))
+                            .padding(.horizontal, 12).padding(.vertical, 6).background(AppStyle.mintSurface, in: Capsule())
+                    }
+                    LedgerCard {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("이번 달 지출").font(.subheadline).foregroundStyle(.secondary)
+                            Text(currencyText(spent)).font(.largeTitle.bold()).monospacedDigit()
+                                .lineLimit(1).minimumScaleFactor(0.6)
+                            Divider()
+                            ViewThatFits(in: .horizontal) {
+                                HStack { totals }
+                                VStack(alignment: .leading, spacing: 16) { totals }
+                            }
+                            if budget > 0 {
+                                Divider()
+                                LabeledContent("월 예산", value: currencyText(budget)).font(.caption)
+                                Text(spent > budget ? "\(currencyText(spent - budget)) 초과" : "\(currencyText(budget - spent)) 남음")
+                                    .font(.subheadline.weight(.semibold)).foregroundStyle(spent > budget ? AppStyle.apricot : AppStyle.accent)
+                                ProgressView(value: min(Double(spent) / Double(budget), 1)).tint(AppStyle.accent)
+                            }
+                        }
+                    }
+                    LedgerCard {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Label("카테고리별 소비 패턴", systemImage: "chart.bar.xaxis").font(.headline)
+                            if categories.isEmpty { Text("기록을 남기면 소비 패턴을 볼 수 있어요").font(.subheadline).foregroundStyle(.secondary) }
+                            ForEach(categories, id: \.name) { item in
+                                VStack(spacing: 8) {
+                                    HStack {
+                                        Text(item.name).font(.subheadline.weight(.medium))
+                                        Spacer()
+                                        Text("\(currencyText(item.amount)) · \(spent > 0 ? Int(Double(item.amount) / Double(spent) * 100) : 0)%")
+                                            .font(.caption).foregroundStyle(.secondary)
+                                    }
+                                    ProgressView(value: spent > 0 ? Double(item.amount) / Double(spent) : 0)
+                                        .tint(AppStyle.categoryColor(item.name))
+                                }.padding(.vertical, 4)
+                            }
+                        }
+                    }
+                    HStack(alignment: .top, spacing: 12) {
+                        OwlMark(size: 40)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("이번 달 기록 돌아보기").font(.headline)
+                            Text(categories.first.map { "지출 금액이 가장 큰 분류는 \($0.name)이에요. 이번 달 수입과 지출 \(month.count)건을 남겼어요." } ?? "작은 기록부터 차근차근 모아 보세요.")
+                                .font(.subheadline)
+                            Text("저장한 기록을 바탕으로 앱에서 계산한 요약이에요")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                    }.padding(16).frame(maxWidth: .infinity, alignment: .leading)
+                        .background(AppStyle.lavenderSurface, in: RoundedRectangle(cornerRadius: 24))
+                    Button("달력에서 기록하기", action: openEntry).buttonStyle(OwlPillStyle())
+                    Button("전체 내역 보기", action: openHistory).frame(maxWidth: .infinity, minHeight: 44)
+                }.padding(16)
+            }.background(AppStyle.canvas).toolbar(.hidden, for: .navigationBar)
         }
     }
-
+    @ViewBuilder private var totals: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("이번 달 수입").font(.caption).foregroundStyle(.secondary)
+            Text(currencyText(earned)).font(.headline).foregroundStyle(AppStyle.income)
+        }.frame(maxWidth: .infinity, alignment: .leading)
+        VStack(alignment: .leading, spacing: 6) {
+            Text("수입 − 지출 차액").font(.caption).foregroundStyle(.secondary)
+            Text(currencyText(earned - spent)).font(.headline)
+        }.frame(maxWidth: .infinity, alignment: .leading)
+    }
 }
 
 struct WelcomeView: View {

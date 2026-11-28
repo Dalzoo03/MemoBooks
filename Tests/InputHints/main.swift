@@ -15,6 +15,21 @@ do { _ = try InputHints.date(in: "2026년 2월 30일", today: today); preconditi
 let unicodeDate = try InputHints.date(in: "２０２６-１１-０１ 커피", today: today)
 precondition(unicodeDate == nil, "Unicode digits must not crash")
 print("Passed deterministic amount and date regression checks")
-for text in ["커피 - 4500원", "옷 1백50원", "커피 4,5원", "점심 9000, 커피 4500원", "커피 4500원인지 모르겠음"] {
+for text in ["커피 - 4500원", "옷 1백50만원", "커피 4,5원", "점심 9000, 커피 4500원", "커피 4500원인지 모르겠음"] {
     precondition(InputHints.amount(in: text) == nil, "unsafe partial parse: \(text)")
+}
+
+for (text, expected) in [("삼겹살 6000", 6000), ("삼겹살6000", 6000), ("어제 삼겹살 6,000", 6000), ("커피 4천5백원", 4500), ("옷 1백50원", 150), ("11월 12일 삼겹살 6000", 6000), ("삼겹살 11월12일6000원", 6000)] {
+    precondition(InputHints.amount(in: text) == expected, "single amount: \(text)")
+}
+for text in ["삼겹살 6000 콜라 2000", "삼겹살 6000원 콜라 2000", "삼겹살 2인분 6000", "사과 2개", "삼겹살 -6000", "삼겹살 0", "삼겹살 4,5", "내 계좌로 6000 이체"] {
+    precondition(InputHints.amount(in: text) == nil, "ambiguous bare amount: \(text)")
+}
+print("Passed bare-amount and Korean hundred-unit checks")
+
+for text in ["커피 4500원 2026-11-12", "커피 4500 2026-11-12", "커피 4500원 2026년 11월 12일"] {
+    precondition(InputHints.amount(in: text) == 4500, "date after amount: \(text)")
+}
+for text in ["커피 2026-11-1234500원", "커피 6000원 10000일"] {
+    precondition(InputHints.amount(in: text) == nil, "partial date must not hide numbers: \(text)")
 }

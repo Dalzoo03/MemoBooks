@@ -43,8 +43,7 @@ final class WatchInbox: NSObject, ObservableObject, WCSessionDelegate {
             try Task.checkCancellation()
             if request.action == .analyze {
                 let parsed = try await ExpenseParsingService().parse(request.text, today: request.referenceDate)
-                guard let amount = parsed.draft.amount else { throw ParsingError.needsReview }
-                let draft = WatchLedgerDraft(id: request.id, amount: amount, memo: parsed.draft.memo,
+                let draft = WatchLedgerDraft(id: request.id, amount: parsed.amount, memo: parsed.draft.memo,
                     category: parsed.category.rawValue, kind: parsed.kind, date: parsed.date, createdAt: request.referenceDate)
                 try draft.validate()
                 return WatchLedgerReply(status: .preview, id: request.id, draft: draft, message: "금액·분류·날짜를 확인해 주세요")

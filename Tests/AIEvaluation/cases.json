@@ -127,5 +127,52 @@
     "kind": "expense",
     "date": "2026-11-10",
     "category": "식비"
+  },
+  {
+    "id": "bare-meat",
+    "input": "삼겹살 6000",
+    "amount": 6000,
+    "kind": "expense",
+    "date": "2026-11-12",
+    "category": "식비"
+  },
+  {
+    "id": "bare-yesterday",
+    "input": "어제 삼겹살 6,000",
+    "amount": 6000,
+    "kind": "expense",
+    "date": "2026-11-11",
+    "category": "식비"
+  },
+  {
+    "id": "hundred-units",
+    "input": "커피 4천5백원",
+    "amount": 4500,
+    "kind": "expense",
+    "date": "2026-11-12",
+    "category": "카페"
+  },
+  {
+    "id": "bare-multiple",
+    "input": "삼겹살 6000 콜라 2000",
+    "requiresReview": true
+  },
+  {
+    "id": "bare-quantity",
+    "input": "삼겹살 2인분 6000",
+    "requiresReview": true
+  },
+  {
+    "id": "example-not-transaction",
+    "input": "삼겹살 6000원 산 게 아니라 그냥 예시야",
+    "requiresReview": true
+  },
+  {
+    "id": "date-after-amount",
+    "input": "커피 4500원 2026-11-03",
+    "amount": 4500,
+    "kind": "expense",
+    "date": "2026-11-03",
+    "category": "카페"
   }
 ]

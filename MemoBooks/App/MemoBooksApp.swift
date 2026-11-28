@@ -1,11 +1,11 @@
 import SwiftUI
 import SwiftData
 
-enum AppTab: Hashable { case home, entry, calendar, history, settings }
+enum AppTab: Hashable { case home, calendar, history, settings }
 
 @main
 struct MemoBooksApp: App {
-    @State private var selectedTab = AppTab.home
+    @State private var selectedTab = AppTab.calendar
     @State private var container: ModelContainer?
     @State private var storageFailed = false
     init() {
@@ -14,9 +14,9 @@ struct MemoBooksApp: App {
         if ProcessInfo.processInfo.arguments.contains("--demo") {
             UserDefaults.standard.set(true, forKey: "hasSeenWelcome")
             UserDefaults.standard.set(800000, forKey: "monthlyExpenseBudget")
-            let tabs: [String: AppTab] = ["home": .home, "entry": .entry, "calendar": .calendar, "history": .history, "settings": .settings]
-            let tab = ProcessInfo.processInfo.arguments.first { $0.hasPrefix("--tab=") }?.replacingOccurrences(of: "--tab=", with: "") ?? "home"
-            _selectedTab = State(initialValue: tabs[tab] ?? .home)
+            let tabs: [String: AppTab] = ["home": .home, "entry": .calendar, "calendar": .calendar, "history": .history, "settings": .settings]
+            let tab = ProcessInfo.processInfo.arguments.first { $0.hasPrefix("--tab=") }?.replacingOccurrences(of: "--tab=", with: "") ?? "calendar"
+            _selectedTab = State(initialValue: tabs[tab] ?? .calendar)
         }
         #endif
     }
@@ -25,13 +25,12 @@ struct MemoBooksApp: App {
             Group {
                 if let container {
                     TabView(selection: $selectedTab) {
-                        Tab("홈", systemImage: "house", value: .home) {
-                            HomeView(openEntry: { selectedTab = .entry }, openCalendar: { selectedTab = .calendar },
+                        Tab("홈", systemImage: "house", value: .calendar) { CalendarView() }
+                        Tab("내역", systemImage: "list.bullet.rectangle", value: .history) { HistoryView() }
+                        Tab("요약", systemImage: "chart.bar.xaxis", value: .home) {
+                            HomeView(openEntry: { selectedTab = .calendar }, openCalendar: { selectedTab = .calendar },
                                      openHistory: { selectedTab = .history })
                         }
-                        Tab("기록", systemImage: "plus.circle.fill", value: .entry) { EntryView() }
-                        Tab("달력", systemImage: "calendar", value: .calendar) { CalendarView() }
-                        Tab("내역", systemImage: "list.bullet.rectangle", value: .history) { HistoryView() }
                         Tab("설정", systemImage: "gearshape", value: .settings) { SettingsView() }
                     }
                     .tint(AppStyle.accent)

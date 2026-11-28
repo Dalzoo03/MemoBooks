@@ -93,4 +93,9 @@ let voiceEditedAt = watchSentAt.addingTimeInterval(86400 * 2)
 let watchReference = DraftValidation.entryReferenceDate(watchNoteID: "watch-note", timestamp: watchSentAt.timeIntervalSince1970, now: voiceEditedAt)
 check(watchReference == watchSentAt, "voice edits preserve Watch note date reference")
 check(DraftValidation.entryReferenceDate(watchNoteID: "", timestamp: watchSentAt.timeIntervalSince1970, now: voiceEditedAt) == voiceEditedAt, "new phone entries use current date")
-print("Passed \(checks) checks including Watch draft reference preservation")
+
+let selectedCalendarDay = watchSentAt.addingTimeInterval(-86400)
+check(DraftValidation.entryReferenceDate(watchNoteID: "", timestamp: watchSentAt.timeIntervalSince1970, selectedDate: selectedCalendarDay, now: voiceEditedAt) == selectedCalendarDay, "calendar entry uses selected day")
+check(DraftValidation.entryReferenceDate(watchNoteID: "watch-note", timestamp: watchSentAt.timeIntervalSince1970, selectedDate: selectedCalendarDay, now: voiceEditedAt) == watchSentAt, "Watch origin takes priority over calendar selection")
+
+print("Passed \(checks) checks including calendar and Watch draft reference preservation")

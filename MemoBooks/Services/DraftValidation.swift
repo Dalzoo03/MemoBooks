@@ -1,9 +1,10 @@
 import Foundation
 
 enum DraftValidation {
-    static let maximumAmount = 1_000_000_000_000
-    static func entryReferenceDate(watchNoteID: String, timestamp: Double, now: Date = .now) -> Date {
-        watchNoteID.isEmpty ? now : Date(timeIntervalSince1970: timestamp)
+    // Keep the limit representable on targets with a 32-bit Int, including watchOS.
+    static let maximumAmount = Int(clamping: Int64(1_000_000_000_000))
+    static func entryReferenceDate(watchNoteID: String, timestamp: Double, selectedDate: Date? = nil, now: Date = .now) -> Date {
+        watchNoteID.isEmpty ? (selectedDate ?? now) : Date(timeIntervalSince1970: timestamp)
     }
     static func amount(from text: String) -> Int? {
         let cleaned = text.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -59,18 +60,20 @@ enum InputHints {
 
     static func amount(in text: String) -> Int? {
         guard !["이체", "송금", "기억", "모르", "아마", "대략", "규칙", "프롬프트", "출력해"].contains(where: text.contains) else { return nil }
-        let amounts = matches(#"(?<![\d.,])[-+]?(?:[0-9][0-9,]*(?:\.[0-9]+)?\s*(?:억|만|천)?\s*)+원"#, in: text)
-        guard amounts.count == 1, let range = Range(amounts[0].range, in: text) else { return nil }
-        let source = String(text[range])
-        let prefix = String(text[..<range.lowerBound]).trimmingCharacters(in: .whitespaces)
-        guard !source.hasPrefix("-"), !prefix.hasSuffix("-"), !prefix.hasSuffix("+") else { return nil }
-        var remainder = String(text[..<range.lowerBound]) + String(text[range.upperBound...])
-        for pattern in [#"[0-9]{4}[-년]\s*[0-9]{1,2}[-월]\s*[0-9]{1,2}일?"#, #"[0-9]{1,2}월\s*[0-9]{1,2}일"#, #"[0-9]{1,2}일"#] {
-            remainder = remainder.replacingOccurrences(of: pattern, with: "", options: .regularExpression)
+        // Exclude date digits before matching a trailing amount (including ISO dates after the amount).
+        var transaction = text
+        for pattern in [#"(?<![0-9])[0-9]{4}[-년]\s*[0-9]{1,2}[-월]\s*[0-9]{1,2}(?![0-9])일?"#, #"(?<![0-9])[0-9]{1,2}월\s*[0-9]{1,2}일"#, #"(?<![0-9])[0-9]{1,2}일"#] {
+            transaction = transaction.replacingOccurrences(of: pattern, with: " ", options: .regularExpression)
         }
+        let amounts = matches(#"(?<![\d.,])[-+]?(?:[0-9][0-9,]*(?:\.[0-9]+)?\s*(?:억|만|천|백|십)?\s*)+(?:원|(?=\s*$))"#, in: transaction)
+        guard amounts.count == 1, let range = Range(amounts[0].range, in: transaction) else { return nil }
+        let source = String(transaction[range])
+        let prefix = String(transaction[..<range.lowerBound]).trimmingCharacters(in: .whitespaces)
+        guard !source.hasPrefix("-"), !prefix.hasSuffix("-"), !prefix.hasSuffix("+") else { return nil }
+        let remainder = String(transaction[..<range.lowerBound]) + String(transaction[range.upperBound...])
         // shortcut: other bare numbers (including quantities) require manual input until quantity parsing is supported.
         guard remainder.rangeOfCharacter(from: .decimalDigits) == nil else { return nil }
-        let parts = matches(#"([0-9][0-9,]*(?:\.[0-9]+)?)\s*(억|만|천)?"#, in: source)
+        let parts = matches(#"([0-9][0-9,]*(?:\.[0-9]+)?)\s*(억|만|천|백|십)?"#, in: source)
         var total = Decimal.zero
         var previousUnit = Int.max
         for part in parts {
@@ -78,7 +81,7 @@ enum InputHints {
             guard token.range(of: #"^(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)(?:\.[0-9]+)?$"#, options: .regularExpression) != nil else { return nil }
             let number = token.replacingOccurrences(of: ",", with: "")
             let unitText = part.range(at: 2).location == NSNotFound ? "" : (source as NSString).substring(with: part.range(at: 2))
-            let unit = ["억": 100000000, "만": 10000, "천": 1000, "": 1][unitText]!
+            let unit = ["억": 100000000, "만": 10000, "천": 1000, "백": 100, "십": 10, "": 1][unitText]!
             guard unit < previousUnit, let value = Decimal(string: number, locale: Locale(identifier: "en_US_POSIX")) else { return nil }
             previousUnit = unit
             total += value * Decimal(unit)

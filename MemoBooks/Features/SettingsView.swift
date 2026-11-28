@@ -14,6 +14,8 @@ struct LedgerDocument: FileDocument {
 }
 
 struct SettingsView: View {
+    private let privacyPolicyURL = URL(string: "https://dalzoo03.github.io/MemoBooks/privacy.html")!
+    private let supportURL = URL(string: "https://dalzoo03.github.io/MemoBooks/support.html")!
     @Environment(\.modelContext) private var context
     @Query private var records: [Expense]
     @AppStorage("lastBackupExport") private var lastBackup = 0.0
@@ -32,10 +34,9 @@ struct SettingsView: View {
             List {
                 Section {
                     HStack(spacing: 16) {
-                        Image(systemName: "text.book.closed.fill").font(.largeTitle).foregroundStyle(AppStyle.accent)
-                            .frame(width: 60, height: 60).background(AppStyle.accent.opacity(0.09), in: RoundedRectangle(cornerRadius: 18))
+                        OwlMark(size: 52)
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("메모가계부").font(.title3.bold())
+                            Text("OwlLog").font(.title3.bold())
                             Text("나의 기록이 머무는 곳").font(.subheadline).foregroundStyle(.secondary)
                         }
                     }.padding(.vertical, 10)
@@ -58,16 +59,23 @@ struct SettingsView: View {
                 Section("도움말") {
                     Button { showWelcome = true } label: { Label("사용 방법", systemImage: "hand.wave") }
                     NavigationLink { privacy } label: { Label("개인정보와 온디바이스 AI", systemImage: "lock.shield") }
+                    Link(destination: privacyPolicyURL) { Label("개인정보처리방침", systemImage: "hand.raised") }
+                    Link(destination: supportURL) { Label("지원 및 문의", systemImage: "questionmark.bubble") }
                     NavigationLink { troubleshooting } label: { Label("AI·음성·워치가 안 될 때", systemImage: "questionmark.circle") }
                 }
                 Section {
-                    LabeledContent("버전", value: "0.2 · 개발 중")
+                    LabeledContent("버전", value: "\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))")
                     Text("계좌 연결 없이 직접 남기는 가계부예요. 수입 − 지출은 기록 기준 차액이며 실제 계좌 잔액과 다를 수 있어요.")
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }
             .disabled(isWorking)
-            .navigationTitle("설정")
+            .scrollContentBackground(.hidden).background(AppStyle.canvas)
+            .contentMargins(.top, 8, for: .scrollContent)
+            .listSectionSpacing(16)
+            .font(.subheadline)
+            .listRowBackground(AppStyle.surface)
+            .navigationTitle("설정").navigationBarTitleDisplayMode(.inline)
             .fileExporter(isPresented: $showExport, document: exportDocument, contentType: exportType,
                           defaultFilename: "MemoBooks-\(DraftValidation.dateText(.now))") { result in
                 switch result {
@@ -156,6 +164,12 @@ struct SettingsView: View {
                 Text("거래는 이 기기의 앱 저장소에 보관해요. 자체 서버, 광고·분석 SDK, 계정이나 앱 자체 클라우드 동기화는 사용하지 않아요.")
                 Text("워치 메모는 페어링된 iPhone으로 전달해요. 작성 중인 문장과 수신 대기 메모도 기기에 임시 보관해요.")
                 Text("JSON·CSV를 내보내면 사용자가 선택한 위치에 파일이 저장돼요. 기기를 바꾸거나 앱을 지우기 전 백업을 저장해 주세요. OS 기기 백업 여부는 기기 설정을 따라요.")
+            }
+            Section("보관과 삭제") {
+                Text("거래는 내역에서 왼쪽으로 밀어 삭제할 수 있어요. 앱을 기기에서 삭제하면 해당 기기의 앱 데이터도 삭제돼요. 워치의 대기 기록은 워치 앱에 별도로 보관돼요.")
+                Text("사용자가 내보낸 JSON·CSV와 OS 백업 사본은 앱에서 삭제되지 않아요. 파일 앱이나 백업 설정에서 따로 관리해 주세요. 음성 권한은 iPhone 설정에서 철회할 수 있어요.")
+                Link("전체 개인정보처리방침", destination: privacyPolicyURL)
+                Link("지원 및 문의", destination: supportURL)
             }
         }.navigationTitle("개인정보 안내").navigationBarTitleDisplayMode(.inline)
     }

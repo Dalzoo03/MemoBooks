@@ -1,51 +1,76 @@
 import SwiftUI
 
-// Semantic system surfaces keep contrast and Dark Mode consistent.
+// Stitch OwlLog palette, with native semantic behavior for contrast and appearance.
 enum AppStyle {
-    static let accent = Color(uiColor: UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red: 0.55, green: 0.65, blue: 1, alpha: 1)
-            : UIColor(red: 0.20, green: 0.32, blue: 0.85, alpha: 1)
-    })
-    static let primaryFill = Color(red: 0.20, green: 0.32, blue: 0.85)
-    static let hero = Color(red: 0.09, green: 0.13, blue: 0.24)
-    static let income = Color(uiColor: UIColor { traits in
-        traits.userInterfaceStyle == .dark ? .systemMint : UIColor(red: 0.02, green: 0.40, blue: 0.33, alpha: 1)
-    })
+    static func color(_ light: UInt32, _ dark: UInt32) -> Color {
+        Color(uiColor: UIColor { traits in
+            let hex = traits.userInterfaceStyle == .dark ? dark : light
+            return UIColor(red: CGFloat((hex >> 16) & 255) / 255,
+                           green: CGFloat((hex >> 8) & 255) / 255,
+                           blue: CGFloat(hex & 255) / 255, alpha: 1)
+        })
+    }
+    static let accent = color(0x005644, 0x8AD5BD)
+    static let primaryFill = Color(red: 0, green: 0.337, blue: 0.267)
+    static let hero = primaryFill
+    static let income = accent
     static let expense = Color.primary
+    static let apricot = color(0x934A29, 0xFFB598)
+    static let lavender = color(0x4E4185, 0xCBBEFF)
+    static let mintSurface = color(0xE1F5EE, 0x00382C)
+    static let apricotSurface = color(0xFFEDE6, 0x581D01)
+    static let lavenderSurface = color(0xF2EFFF, 0x322568)
+    static let canvas = color(0xFEFCF8, 0x0E1511)
+    static let surface = color(0xFFFFFF, 0x1A211D)
+    static let inset = color(0xF2F0ED, 0x252B28)
+    static let outline = color(0xBEC9C3, 0x3F4945)
+    static let radius: CGFloat = 24
     static func categoryColor(_ category: String) -> Color {
         switch ExpenseCategory(rawValue: category) {
-        case .food: .orange
-        case .cafe: .brown
-        case .transport: .blue
-        case .shopping: .purple
-        case .culture: .pink
-        case .medical: .red
-        case .housing: .indigo
-        case .salary, .allowance, .sideJob, .incomeOther: income
-        default: .secondary
+        case .food, .cafe, .shopping: apricot
+        case .culture, .medical, .housing: lavender
+        default: accent
         }
     }
-    static let canvas = Color(.systemGroupedBackground)
-    static let surface = Color(.secondarySystemGroupedBackground)
-    static let radius: CGFloat = 20
 }
 
 struct LedgerCard<Content: View>: View {
     @ViewBuilder var content: Content
     var body: some View {
-        content.padding(18).frame(maxWidth: .infinity, alignment: .leading)
+        content.padding(16).frame(maxWidth: .infinity, alignment: .leading)
             .background(AppStyle.surface, in: RoundedRectangle(cornerRadius: AppStyle.radius))
+            .overlay(RoundedRectangle(cornerRadius: AppStyle.radius).stroke(AppStyle.outline.opacity(0.45), lineWidth: 0.75))
+    }
+}
+
+struct OwlMark: View {
+    var size: CGFloat = 32
+    var body: some View {
+        Image("OwlMascot").resizable().scaledToFill()
+            .frame(width: size, height: size).clipShape(RoundedRectangle(cornerRadius: size * 0.35))
+            .accessibilityHidden(true)
+    }
+}
+
+struct OwlPillStyle: ButtonStyle {
+    var foreground: Color = AppStyle.accent
+    var background: Color = AppStyle.mintSurface
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label.font(.subheadline.weight(.semibold))
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .foregroundStyle(foreground).background(background, in: Capsule())
+            .opacity(configuration.isPressed ? 0.7 : 1)
     }
 }
 
 struct CategoryBadge: View {
     let category: String
+    @Environment(\.colorSchemeContrast) private var contrast
     var body: some View {
         let item = ExpenseCategory(rawValue: category) ?? .other
         Image(systemName: item.icon)
             .font(.body.weight(.semibold))
-            .foregroundStyle(AppStyle.categoryColor(category))
+            .foregroundStyle(contrast == .increased ? Color.primary : AppStyle.categoryColor(category))
             .frame(width: 42, height: 42)
             .background((AppStyle.categoryColor(category)).opacity(0.10),
                         in: RoundedRectangle(cornerRadius: 14))

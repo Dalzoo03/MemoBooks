@@ -50,13 +50,13 @@ private struct EvaluationReport: Encodable {
                     let parsed = try await service.parse(item.input, today: reference)
                     let date = DraftValidation.dateText(parsed.date)
                     let passed: Bool
-                    if item.requiresReview == true { passed = parsed.draft.amount == nil }
+                    if item.requiresReview == true { passed = false }
                     else {
-                        passed = parsed.draft.amount == item.amount && parsed.kind.rawValue == item.kind
+                        passed = parsed.amount == item.amount && parsed.kind.rawValue == item.kind
                             && date == item.date && parsed.category.rawValue == item.category
                     }
                     results.append(CaseResult(id: item.id, input: item.input, seconds: Date().timeIntervalSince(start),
-                        passed: passed, amount: parsed.draft.amount, kind: parsed.kind.rawValue, date: date,
+                        passed: passed, amount: parsed.amount, kind: parsed.kind.rawValue, date: date,
                         category: parsed.category.rawValue, error: nil))
                     print("\(passed ? "PASS" : "FAIL") \(item.id)")
                 } catch {

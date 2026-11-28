@@ -16,14 +16,15 @@ struct WatchEntryView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                Text("지금, 한 줄 기록").font(.headline)
+                Label("지금, 한 줄 기록", systemImage: "mic.circle.fill").font(.headline)
+                    .foregroundStyle(Color(red: 0.54, green: 0.84, blue: 0.74))
                 TextField("말하거나 입력하기", text: $text).disabled(sender.busy)
                 Text("입력창의 마이크로 “커피 4500원”처럼 말해 보세요").font(.caption2).foregroundStyle(.secondary)
                 if text.count > 500 { Text("500자 이내로 입력해 주세요").font(.caption2).foregroundStyle(.orange) }
                 Button {
                     if sender.analyzeInput(text) { text = "" }
                 } label: { Label("AI로 정리하기", systemImage: "sparkles") }
-                    .buttonStyle(.borderedProminent).tint(.indigo)
+                    .buttonStyle(.borderedProminent).tint(Color(red: 0.54, green: 0.84, blue: 0.74))
                     .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || text.count > 500 || !sender.ready || sender.busy)
                 if sender.busy { ProgressView("iPhone에서 처리 중") }
                 Text(sender.message).font(.caption2).foregroundStyle(.secondary)
@@ -45,7 +46,7 @@ struct WatchEntryView: View {
                         .font(.caption2).padding()
                 }.font(.caption)
             }.padding(.horizontal, 4)
-        }.navigationTitle("메모가계부")
+        }.navigationTitle("OwlLog")
             .sheet(item: $sender.presentedDraft) { WatchDraftView(draft: $0).environmentObject(sender) }
             .sheet(item: $sender.editingNote) { WatchNoteEditor(note: $0).environmentObject(sender) }
     }
@@ -102,7 +103,7 @@ struct WatchDraftView: View {
                 if sender.busy { ProgressView("저장 확인 중") }
                 Text(sender.message).font(.caption2).foregroundStyle(.secondary)
                 Button("확인하고 저장") { sender.save(edited) }
-                    .buttonStyle(.borderedProminent).tint(.indigo).disabled(!valid || sender.busy)
+                    .buttonStyle(.borderedProminent).tint(Color(red: 0.54, green: 0.84, blue: 0.74)).disabled(!valid || sender.busy)
             }.disabled(sender.busy)
                 .navigationTitle("기록 확인")
         }.interactiveDismissDisabled(sender.busy)

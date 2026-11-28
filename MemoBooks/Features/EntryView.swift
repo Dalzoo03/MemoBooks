@@ -2,8 +2,23 @@ import SwiftUI
 import SwiftData
 
 struct EntryView: View {
+    var embedded = false
+    var entryDate: Date? = nil
+    var onPreview: () -> Void = {}
+
+    init(embedded: Bool = false, entryDate: Date? = nil, onPreview: @escaping () -> Void = {}) {
+        self.embedded = embedded
+        self.entryDate = entryDate
+        self.onPreview = onPreview
+        var descriptor = FetchDescriptor<Expense>(sortBy: [SortDescriptor(\Expense.date, order: .reverse)])
+        descriptor.fetchLimit = 3
+        _recentRecords = Query(descriptor)
+    }
+
     @Environment(\.modelContext) private var context
+    @Query(sort: \Expense.date, order: .reverse) private var recentRecords: [Expense]
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var voice = VoiceInput()
     @ObservedObject private var watchInbox = WatchInbox.shared
     @AppStorage("entryDraft") private var input = ""
@@ -33,51 +48,149 @@ struct EntryView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        header
-                        if !watchInbox.notes.isEmpty { watchNotes }
-                        inputCard
-                        if let errorMessage {
-                            Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
-                                .font(.subheadline).foregroundStyle(.red).padding(16)
-                                .background(.red.opacity(0.06), in: RoundedRectangle(cornerRadius: 16))
-                                .accessibilityLabel("오류: \(errorMessage)")
-                        }
-                        if showPreview { preview.id("preview") }
-                        if saved {
-                            Label("저장했어요. 달력과 내역에 반영했어요", systemImage: "checkmark.circle.fill")
-                                .font(.subheadline.weight(.medium)).foregroundStyle(AppStyle.accent)
-                        }
-                        if !status.isAvailable { availabilityCard }
-                        Label("입력 내용은 서버로 전송하지 않아요", systemImage: "lock.shield")
-                            .font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity).padding(.vertical, 4)
-                    }.padding(20)
-                }
-                .onChange(of: showPreview) { _, visible in
-                    if visible { withAnimation { proxy.scrollTo("preview", anchor: .top) } }
+        Group {
+            if embedded { formContent }
+            else {
+                NavigationStack {
+                    ScrollViewReader { proxy in
+                        ScrollView { formContent.padding(20) }
+                            .onChange(of: showPreview) { _, visible in
+                                if visible { withAnimation(reduceMotion ? nil : .default) { proxy.scrollTo("preview", anchor: .top) } }
+                            }
+                    }
+                    .background(AppStyle.canvas)
+                    .navigationTitle("기록하기").navigationBarTitleDisplayMode(.inline)
+                    .scrollDismissesKeyboard(.interactively)
                 }
             }
-            .background(AppStyle.canvas)
-            .navigationTitle("기록하기").navigationBarTitleDisplayMode(.inline)
-            .scrollDismissesKeyboard(.interactively)
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("완료") { inputFocused = false } }
-            }
-            .onAppear { status = service.status }
-            .onChange(of: scenePhase) { _, phase in
-                if phase == .active { status = service.status }
-                if phase == .background { voice.stop() }
-            }
-            .onChange(of: voice.transcript) { _, text in
-                input = voicePrefix + text
-                referenceTimestamp = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp).timeIntervalSince1970
-                saved = false
-            }
-            .onDisappear { cancel(); voice.stop() }
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("완료") { inputFocused = false } }
+        }
+        .onAppear { status = service.status }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { status = service.status }
+            if phase == .background { voice.stop() }
+        }
+        .onChange(of: voice.transcript) { _, text in
+            input = voicePrefix + text
+            referenceTimestamp = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp, selectedDate: entryDate).timeIntervalSince1970
+            saved = false
+        }
+        .onChange(of: entryDate) { _, _ in
+            cancel()
+            voice.stop()
+            // Re-parse relative dates against the newly selected calendar day.
+            if loadedNoteID.isEmpty { showPreview = false }
+            saved = false
+        }
+        .onChange(of: showPreview) { _, visible in if visible && !embedded { onPreview() } }
+        .sheet(isPresented: Binding(get: { embedded && showPreview }, set: { showPreview = $0 })) {
+            NavigationStack {
+                ScrollView {
+                    preview.padding(16)
+                    if let errorMessage {
+                        Text(errorMessage).font(.subheadline).foregroundStyle(.red).padding(16)
+                    }
+                }.background(AppStyle.canvas)
+                    .navigationTitle(wasAI ? "AI 정리 결과" : "직접 입력")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar { ToolbarItem(placement: .cancellationAction) { Button("닫기") { showPreview = false } } }
+            }.presentationDetents([.large])
+        }
+        .onDisappear { cancel(); voice.stop() }
+    }
+
+    private var formContent: some View {
+        VStack(alignment: .leading, spacing: embedded ? 12 : 20) {
+            if !embedded { header }
+            if !watchInbox.notes.isEmpty { watchNotes }
+            if embedded { compactInputCard } else { inputCard }
+            if let errorMessage {
+                Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
+                    .font(.subheadline).foregroundStyle(.red).padding(14)
+                    .background(.red.opacity(0.06), in: RoundedRectangle(cornerRadius: 16))
+                    .accessibilityLabel("오류: \(errorMessage)")
+            }
+            if showPreview && !embedded { preview.id("preview") }
+            if saved {
+                Label("저장했어요. 달력과 내역에 반영했어요", systemImage: "checkmark.circle.fill")
+                    .font(.subheadline.weight(.medium)).foregroundStyle(AppStyle.income)
+            }
+            if !status.isAvailable { availabilityCard }
+            if !embedded {
+                Label("입력 내용은 서버로 전송하지 않아요", systemImage: "lock.shield")
+                    .font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    private var compactInputCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            TextField("예: 어제 커피 4,500원", text: $input, axis: .vertical)
+                .font(.body).lineLimit(1...3).focused($inputFocused)
+                .disabled(busy || showPreview).accessibilityLabel("선택한 날짜의 수입 또는 지출")
+                .padding(12).background(AppStyle.canvas, in: RoundedRectangle(cornerRadius: 16))
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(AppStyle.outline.opacity(0.6)))
+            if !showPreview {
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 8) { compactActions }
+                    VStack(alignment: .leading, spacing: 10) { compactActions }
+                }.font(.subheadline)
+                if !input.isEmpty || !loadedNoteID.isEmpty {
+                    Button("비우고 새 기록") {
+                        input = ""; loadedNoteID = ""; saved = false; errorMessage = nil
+                    }.font(.caption).disabled(busy)
+                }
+                if isLoading { Button("분석 취소") { cancel() }.font(.caption) }
+                if let message = voice.message { Text(message).font(.caption).foregroundStyle(.secondary) }
+                if input.count > 500 { Text("500자 이내로 입력해 주세요").font(.caption).foregroundStyle(.red) }
+                Text(loadedNoteID.isEmpty ? "선택한 날짜를 기준으로 정리해요 · 저장 전 확인" : "워치 메모의 날짜를 기준으로 정리해요")
+                    .font(.caption2).foregroundStyle(.secondary)
+                if !recentRecords.isEmpty {
+                    Divider()
+                    Text("최근 기록 다시 쓰기").font(.caption).foregroundStyle(.secondary)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(Array(recentRecords.prefix(3))) { record in
+                                Button {
+                                    input = "\(record.memo) \(record.amount)원" + (record.kind == .income ? " 받음" : "")
+                                    loadedNoteID = ""; saved = false; errorMessage = nil
+                                } label: {
+                                    Text("\(record.memo) \(record.amount.formatted())").font(.caption)
+                                        .padding(.horizontal, 12).frame(minHeight: 44)
+                                        .background(AppStyle.inset, in: Capsule())
+                                }.buttonStyle(.plain).disabled(busy)
+                            }
+                        }
+                    }
+                }
+            }
+        }.padding(16)
+            .background(AppStyle.surface, in: RoundedRectangle(cornerRadius: 24))
+            .overlay(RoundedRectangle(cornerRadius: 24).stroke(AppStyle.outline.opacity(0.45), lineWidth: 0.75))
+    }
+
+    @ViewBuilder
+    private var compactActions: some View {
+        Button {
+            if voice.isRecording || voice.isStarting { voice.finish() }
+            else {
+                inputFocused = false
+                voicePrefix = input.isEmpty ? "" : input + " "
+                Task { await voice.start() }
+            }
+        } label: {
+            Label(voice.isRecording || voice.isStarting ? "종료" : "말하기", systemImage: voice.isRecording ? "stop.fill" : "mic.fill")
+                .frame(minHeight: 44)
+        }.buttonStyle(OwlPillStyle()).disabled(isLoading)
+        Button(action: analyze) {
+            if isLoading { ProgressView() } else { Label("AI 정리", systemImage: "sparkles") }
+        }.buttonStyle(OwlPillStyle(foreground: .white, background: AppStyle.primaryFill))
+            .opacity(busy || !status.isAvailable || input.isEmpty ? 0.5 : 1)
+            .disabled(busy || !status.isAvailable || input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || input.count > 500)
+        Button { openManual() } label: { Text("직접 입력") }
+            .buttonStyle(OwlPillStyle(foreground: AppStyle.apricot, background: AppStyle.apricotSurface)).disabled(busy)
     }
 
     private var header: some View {
@@ -236,12 +349,12 @@ struct EntryView: View {
         inputFocused = false; saved = false; errorMessage = nil; isLoading = true
         let id = UUID(); requestID = id
         let original = input
-        let today = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp)
+        let today = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp, selectedDate: entryDate)
         request = Task { @MainActor in
             do {
                 let result = try await service.parse(original, today: today)
                 guard requestID == id, !Task.isCancelled else { return }
-                amount = result.draft.amount.flatMap { $0 > 0 && $0 <= DraftValidation.maximumAmount ? String($0) : nil } ?? ""
+                amount = String(result.amount)
                 memo = result.draft.memo
                 kind = result.kind; category = result.category; date = result.date
                 wasAI = true; showPreview = true
@@ -256,7 +369,7 @@ struct EntryView: View {
     private func openManual() {
         saved = false; errorMessage = nil; amount = ""; memo = input
         kind = .expense; category = .other
-        date = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp)
+        date = DraftValidation.entryReferenceDate(watchNoteID: loadedNoteID, timestamp: referenceTimestamp, selectedDate: entryDate)
         wasAI = false; showPreview = true
     }
     private func save() {
